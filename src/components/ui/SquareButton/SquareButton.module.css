@@ -1,0 +1,34 @@
+.errorText {
+  font-size: 50px;
+
+  color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 50px;
+  height: 50px;
+
+  background-color: var(--grey-1);
+  border: none;
+  border-radius: var(--border-radius-small);
+
+  transition-property: background-color;
+  transition-duration: var(--ui-transition-duration);
+
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--grey-3);
+}
+
+.text {
+  text-transform: uppercase;
+  /* text-overflow: ellipsis; */
+
+  overflow: hidden;
+}

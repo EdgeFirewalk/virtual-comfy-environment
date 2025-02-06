@@ -1,0 +1,16 @@
+.block {
+  position: absolute;
+  top: var(--absolute-margin);
+  right: var(--absolute-margin);
+
+  max-width: 62px;
+
+  /* transition-property: max-width; */
+  transition-duration: var(--ui-transition-duration);
+  transition-timing-function: linear;
+}
+
+.block:hover {
+  max-width: fit-content;
+  width: 200px;
+}

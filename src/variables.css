@@ -1,0 +1,33 @@
+* {
+  --absolute-margin: 5px; /* Отступ от краёв экрана у UI блоков */
+
+  /* Размеры шрифтов */
+  --regular-text: 18px;
+  --modal-title: 25px;
+
+  /* Цвета */
+  --white: #d9d9d9;
+  --transparent-white: rgba(
+    217,
+    217,
+    217,
+    0.3
+  ); /* Наведение на RadioStation, страницы мануала */
+
+  --grey-1: #2c2c2c; /* Задний фон UIBlock */
+  --transparent-grey-1: rgba(44, 44, 44, 0.9); /* Задний фон модальных окон */
+  --grey-2: #444444; /* Обводка UIBlock */
+  --grey-3: #383838; /* Задний фон инпутов, подсвечивание кнопок при наведении */
+
+  --blue: #0c8ce9;
+
+  --transparent-black: rgba(0, 0, 0, 0.65); /*  */
+
+  /* Радиусы границ */
+  --border-radius-big: 8px; /* UIBlock, инпуты, Button */
+  --border-radius-small: 5px; /* SquareButton */
+
+  /* Длительности переходов */
+  --ui-transition-duration: 0.3s; /* Кнопки, поля ввода и всякое такое */
+  --modal-transition-duration: 0.2s; /* Модальное окно */
+}

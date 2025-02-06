@@ -1,0 +1,11 @@
+.UIBlock {
+  width: fit-content;
+  padding: 5px;
+
+  background-color: var(--grey-1);
+  border: 1px solid var(--grey-2);
+  border-radius: var(--border-radius-big);
+
+  /* TODO: Перепроверить, как смотрится эта тень при разных задних фонах, нужна ли она вообще */
+  box-shadow: 0 1px 5px var(--grey-1);
+}
