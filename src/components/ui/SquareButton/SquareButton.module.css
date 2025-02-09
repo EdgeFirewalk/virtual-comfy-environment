@@ -9,8 +9,8 @@
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
-  width: 55px;
-  height: 55px;
+  width: var(--square-button-size);
+  height: var(--square-button-size);
 
   background-color: var(--grey-1);
   border: none;
