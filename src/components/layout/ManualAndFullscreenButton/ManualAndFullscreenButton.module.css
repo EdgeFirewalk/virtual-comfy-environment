@@ -1,0 +1,8 @@
+.block {
+  position: absolute;
+  right: var(--absolute-margin);
+  bottom: var(--absolute-margin);
+
+  display: flex;
+  gap: var(--square-buttons-gap);
+}
