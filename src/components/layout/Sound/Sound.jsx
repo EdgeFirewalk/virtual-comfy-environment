@@ -18,6 +18,7 @@ const Sound = ({ isOpen, sound, deleteSound }) => {
   const URLRef = useRef(null);
 
   const [canPlaySound, setCanPlaySound] = useState(false);
+  const [isSoundReady, setIsSoundReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(sound.isPlaying);
   const [volume, setVolume] = useState(sound.volume);
 
@@ -113,7 +114,7 @@ const Sound = ({ isOpen, sound, deleteSound }) => {
         className={`${styles.button} ${isPlaying && styles.playing}`}
         text={soundName || '...'}
         onClick={togglePlayPause}
-        disabled={!(soundName.length > 0 && canPlaySound)}
+        disabled={!(soundName.length > 0 && canPlaySound && isSoundReady)}
       />
       <ReactPlayer
         width={0}
@@ -122,6 +123,7 @@ const Sound = ({ isOpen, sound, deleteSound }) => {
         playing={isPlaying}
         volume={volume}
         loop={true}
+        onReady={() => setIsSoundReady(true)}
         onError={() => setCanPlaySound(false)}
       />
     </div>
