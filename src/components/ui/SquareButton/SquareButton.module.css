@@ -11,9 +11,10 @@
   flex-wrap: nowrap;
   width: var(--square-button-size);
   height: var(--square-button-size);
+  padding: 3px;
 
   background-color: var(--grey-1);
-  border: none;
+  border: 1px solid transparent;
   border-radius: var(--border-radius-small);
 
   transition-property: background-color;
@@ -33,6 +34,7 @@
 }
 
 .text {
+  font-size: var(--small-text);
   white-space: nowrap;
   text-transform: uppercase;
   text-overflow: '-';
