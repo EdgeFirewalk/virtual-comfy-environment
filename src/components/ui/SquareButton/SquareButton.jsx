@@ -1,6 +1,6 @@
 import styles from './SquareButton.module.css';
 
-const SquareButton = ({ icon, text, ...props }) => {
+const SquareButton = ({ className, icon, text, ...props }) => {
   if (icon && text) {
     return (
       <p className={styles.errorText}>
@@ -10,7 +10,7 @@ const SquareButton = ({ icon, text, ...props }) => {
   }
 
   return (
-    <button className={styles.button} {...props}>
+    <button className={`${styles.button} ${className}`} {...props}>
       {icon}
       <p className={styles.text}>{text}</p>
     </button>

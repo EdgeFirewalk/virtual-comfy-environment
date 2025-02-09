@@ -27,8 +27,9 @@
 }
 
 .text {
+  white-space: nowrap;
   text-transform: uppercase;
-  /* text-overflow: ellipsis; */
+  text-overflow: '-';
 
   overflow: hidden;
 }
