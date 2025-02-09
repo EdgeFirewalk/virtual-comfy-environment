@@ -4,6 +4,7 @@
   --absolute-margin: 5px; /* Отступ от краёв экрана у UI блоков */
 
   /* Размеры шрифтов */
+  --small-text: 12px;
   --regular-text: 18px;
   --modal-title: 25px;
 
