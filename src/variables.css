@@ -21,6 +21,9 @@
 
   --blue: #0c8ce9;
 
+  --red: #e03e1a;
+  --transparent-red: #e03e1a30;
+
   --transparent-black: rgba(0, 0, 0, 0.65); /*  */
 
   /* Радиусы границ */
