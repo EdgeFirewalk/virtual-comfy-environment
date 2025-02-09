@@ -3,6 +3,8 @@
 
   --absolute-margin: 5px; /* Отступ от краёв экрана у UI блоков */
 
+  --square-buttons-gap: 5px; /* Используется для расположения кнопок в UIBlock с использованием FlexBox */
+
   /* Размеры шрифтов */
   --small-text: 12px;
   --regular-text: 18px;
