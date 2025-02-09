@@ -14,15 +14,15 @@ const Sounds = () => {
   const [sounds, setSounds] = useState([]);
 
   const deleteSound = (id) => {
-    setSounds((prevSounds) => {
-      const newSounds = prevSounds.filter((sound) => sound.id !== id);
-      localStorage.setItem('savedSounds', JSON.stringify(newSounds));
-      return newSounds;
-    });
+    const newSounds = sounds.filter((sound) => sound.id !== id);
+    setSounds(newSounds);
+    localStorage.setItem('savedSounds', JSON.stringify(newSounds));
   };
 
   useEffect(() => {
-    const savedSounds = JSON.parse(localStorage.getItem('savedSounds'));
+    const savedSounds = JSON.parse(localStorage.getItem('savedSounds')).sort(
+      (sound1, sound2) => sound1.id - sound2.id, // Сортируем фактически по порядку (времени) добавления звука
+    );
 
     // Если звуков в localStorage не оказалось, то подгружать нечего
     if (!savedSounds) {
@@ -39,9 +39,9 @@ const Sounds = () => {
       onMouseLeave={() => setIsSoundsOpen(false)}
     >
       <div className={styles.sounds}>
-        {sounds.map((sound, index) => (
+        {sounds.map((sound) => (
           <Sound
-            key={index}
+            key={sound.id}
             isOpen={isSoundsOpen}
             sound={sound}
             deleteSound={deleteSound}
