@@ -1,9 +1,9 @@
 import styles from '../InputField.module.css';
 
-const NumberInput = ({ className, ...props }) => {
+const NumberInput = ({ className, isValid, ...props }) => {
   return (
     <input
-      className={`${styles.inputField} ${className}`}
+      className={`${styles.inputField} ${!isValid && styles.invalid} ${className}`}
       type="number"
       {...props}
     />

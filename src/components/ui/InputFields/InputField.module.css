@@ -12,6 +12,11 @@
   border: 1px solid var(--blue);
 }
 
+.inputField.invalid {
+  background-color: var(--transparent-red);
+  border: 1px solid var(--red);
+}
+
 /* Убираем стрелочки справа у NumberInput */
 
 /* Chrome, Safari, Edge, Opera */
