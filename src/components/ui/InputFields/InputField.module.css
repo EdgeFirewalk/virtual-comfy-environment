@@ -1,0 +1,32 @@
+.inputField {
+  padding: 0 3px;
+
+  background-color: var(--grey-3);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-big);
+
+  outline: none;
+}
+
+.inputField:focus {
+  border: 1px solid var(--blue);
+}
+
+.inputField.invalid {
+  background-color: var(--transparent-red);
+  border: 1px solid var(--red);
+}
+
+/* Убираем стрелочки справа у NumberInput */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

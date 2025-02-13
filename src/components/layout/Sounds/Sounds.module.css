@@ -3,14 +3,23 @@
   top: var(--absolute-margin);
   right: var(--absolute-margin);
 
-  max-width: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
-  /* transition-property: max-width; */
+  max-width: 100px;
+
+  transition-property: max-width;
   transition-duration: var(--ui-transition-duration);
-  transition-timing-function: linear;
 }
 
 .block:hover {
-  max-width: fit-content;
-  width: 200px;
+  max-width: 100%;
+}
+
+.sounds {
+  max-height: 192px;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
 }

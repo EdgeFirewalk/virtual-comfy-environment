@@ -1,7 +1,12 @@
 * {
+  --square-button-size: 55px; /* Добавил сюда, потому что высота VolumeSlider зависит от этого */
+
   --absolute-margin: 5px; /* Отступ от краёв экрана у UI блоков */
 
+  --square-buttons-gap: 5px; /* Используется для расположения кнопок в UIBlock с использованием FlexBox */
+
   /* Размеры шрифтов */
+  --small-text: 12px;
   --regular-text: 18px;
   --modal-title: 25px;
 
@@ -21,7 +26,10 @@
 
   --blue: #0c8ce9;
 
-  --transparent-black: rgba(0, 0, 0, 0.65); /*  */
+  --red: #e03e1a;
+  --transparent-red: #e03e1a30;
+
+  --transparent-black: rgba(0, 0, 0, 0.65); /* Используется для приглушения видеодорожки текущей радиостанции */
 
   /* Радиусы границ */
   --border-radius-big: 8px; /* UIBlock, инпуты, Button */

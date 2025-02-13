@@ -1,12 +1,15 @@
+// import Pomodoro
 import Sounds from './components/layout/Sounds/Sounds';
+// import Radio
+import ManualAndFullscreenButton from './components/layout/ManualAndFullscreenButton/ManualAndFullscreenButton';
 
 function App() {
   return (
     <>
       {/* Pomodoro */}
       <Sounds />
-      {/* RadioStation */}
-      {/* Manual and Fullscreen button */}
+      {/* Radio */}
+      <ManualAndFullscreenButton />
     </>
   );
 }

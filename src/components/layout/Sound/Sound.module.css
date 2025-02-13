@@ -1,0 +1,52 @@
+.sound {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  margin-right: 5px;
+  margin-bottom: 8px;
+}
+
+.settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  max-width: 0;
+
+  opacity: 0;
+
+  transition-property: max-width, opacity;
+  transition-duration: var(--ui-transition-duration);
+}
+
+.settings.open {
+  max-width: 100%;
+  opacity: 1;
+}
+
+.settingsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.settingsLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.settingPlaceholder {
+  white-space: nowrap;
+}
+
+.button {
+  z-index: 2;
+}
+
+.button.playing {
+  background-color: var(--grey-3);
+  border: 1px solid var(--white);
+}
