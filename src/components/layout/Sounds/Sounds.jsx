@@ -20,14 +20,15 @@ const Sounds = () => {
   };
 
   useEffect(() => {
-    const savedSounds = JSON.parse(localStorage.getItem('savedSounds')).sort(
-      (sound1, sound2) => sound1.id - sound2.id, // Сортируем фактически по порядку (времени) добавления звука
-    );
+    const savedSounds = JSON.parse(localStorage.getItem('savedSounds'));
 
     // Если звуков в localStorage не оказалось, то подгружать нечего
     if (!savedSounds) {
       return;
     }
+
+    // Сортируем фактически по порядку (времени) добавления звука
+    savedSounds.sort((sound1, sound2) => sound1.id - sound2.id);
 
     setSounds(savedSounds);
   }, []);
