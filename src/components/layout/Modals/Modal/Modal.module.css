@@ -1,0 +1,31 @@
+/* Фон модального окна */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(44, 44, 44, 0.9); /* Полупрозрачный фон */
+  display: block; 
+  z-index: 1000;
+}
+
+/* Надпись в левом верхнем углу */
+.label {
+  position: absolute;
+  left: var(--absolute-margin);
+  top: var(--absolute-margin);
+  font-size: 18px;
+  font-family: 'K2D', sans-serif; 
+    font-weight: 400;
+  color: white;
+
+}
+
+/* Блок для кнопки закрытия */
+.closeButtonBlock {
+  position: absolute;
+  right: var(--absolute-margin);
+  top: var(--absolute-margin);
+  display: flex;
+}
