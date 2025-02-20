@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import DEFAULT_SOUNDS from '../../../utils/consts/DEFAULT_SOUNDS';
+
 import styles from './Sounds.module.css';
 
 import { FiPlus } from 'react-icons/fi';
@@ -20,6 +22,14 @@ const Sounds = () => {
   };
 
   useEffect(() => {
+    const openedAppOnce = JSON.parse(localStorage.getItem('openedAppOnce'));
+
+    // Если ни разу не был в приложении
+    if (!openedAppOnce) {
+      localStorage.setItem('savedSounds', JSON.stringify(DEFAULT_SOUNDS));
+      localStorage.setItem('openedAppOnce', 'true');
+    }
+
     const savedSounds = JSON.parse(localStorage.getItem('savedSounds'));
 
     // Если звуков в localStorage не оказалось, то подгружать нечего
