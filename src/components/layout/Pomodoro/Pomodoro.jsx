@@ -60,6 +60,7 @@ const Pomodoro = () => {
             <p className={`${styles.stage}`}>Long Break</p>
           </div>
           <p className={styles.time}>25:00</p>
+          {/* TODO: Применить Анину кнопку */}
           <button className={styles.button}>Start</button>
         </div>
         <div
