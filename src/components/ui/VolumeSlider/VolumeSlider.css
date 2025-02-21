@@ -1,0 +1,36 @@
+.rc-slider-vertical {
+  height: calc(var(--square-button-size) - 8px);
+  margin: 0 5px;
+}
+
+.rc-slider-rail {
+  background-color: var(--white);
+}
+
+.rc-slider-track {
+  background-color: var(--white);
+}
+
+.rc-slider-handle {
+  bottom: 5%;
+
+  width: 15px;
+  height: 5px;
+
+  background-color: var(--white);
+  border: none;
+  border-radius: 0;
+
+  cursor: pointer;
+}
+
+rc-slider-handle-click-focused:focus {
+  border-color: none;
+}
+
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+  border-color: var(--white);
+  box-shadow: none;
+
+  cursor: pointer;
+}
