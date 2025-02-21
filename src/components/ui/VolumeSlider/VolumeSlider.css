@@ -24,6 +24,10 @@
   cursor: pointer;
 }
 
+rc-slider-handle-click-focused:focus {
+  border-color: none;
+}
+
 .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
   border-color: var(--white);
   box-shadow: none;
