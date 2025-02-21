@@ -1,0 +1,109 @@
+.block {
+  position: absolute;
+  top: var(--absolute-margin);
+  left: var(--absolute-margin);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 372px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timerPage {
+  flex-direction: column;
+  margin: 15px;
+}
+
+.timer {
+  justify-content: center;
+  align-items: center;
+}
+
+.stages {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 15px;
+}
+
+.stage {
+  padding: 3px 5px;
+
+  text-transform: capitalize;
+
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-small);
+
+  transition-property: border, background-color;
+  transition-duration: var(--ui-transition-duration);
+
+  cursor: pointer;
+}
+
+.stage:hover {
+  background-color: var(--grey-3);
+}
+
+.activeStage {
+  background-color: var(--grey-3);
+  border: 1px solid var(--white);
+}
+
+.time {
+  margin: 15px 0;
+
+  font-size: 45px;
+  text-align: center;
+}
+
+.settings {
+  gap: 10px;
+}
+
+.settingsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.settingsBlockTitle {
+  text-transform: uppercase;
+
+  border-bottom: 1px solid var(--white);
+}
+
+.inputLabel {
+  margin-bottom: 3px;
+
+  text-transform: capitalize;
+}
+
+.checkboxBlock {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+}
+
+.checkbox {
+  width: 15px;
+  height: 15px;
+
+  accent-color: var(--blue);
+}
+
+.foldTime {
+  letter-spacing: 1px;
+  text-shadow:
+    -1px -1px 0 var(--transparent-black),
+    1px -1px 0 var(--transparent-black),
+    -1px 1px 0 var(--transparent-black),
+    1px 1px 0 var(--transparent-black);
+}
