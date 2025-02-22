@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
+import useSound from 'use-sound';
 
 import TIMER_STAGES from '../../../utils/consts/TIMER_STAGES';
+import formatTime from '../../../utils/functions/formatTime';
 
 import styles from './Pomodoro.module.css';
 
-import { FiClock } from 'react-icons/fi';
-import { FiX } from 'react-icons/fi';
-import { FiSettings } from 'react-icons/fi';
-import { FiChevronLeft } from 'react-icons/fi';
+import { FiClock, FiX, FiSettings, FiChevronLeft } from 'react-icons/fi';
+
+import startTimerSound from '../../../assets/sounds/timer-start.wav';
+import stopTimerSound from '../../../assets/sounds/timer-stop.wav';
+import timeIsUpSound from '../../../assets/sounds/times-up.wav';
 
 import UIBlock from '../../ui/UIBlock/UIBlock';
 import SquareButton from '../../ui/SquareButton/SquareButton';
@@ -17,8 +20,7 @@ const Pomodoro = () => {
   const [isUnfold, setIsUnfold] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  // Настройки таймера
-  // Время указывается в минутах
+  // Настройки таймера (время в минутах)
   const [pomodoroTime, setPomodoroTime] = useState(25);
   const [isValidPomodoroTime, setIsValidPomodoroTime] = useState(true);
 
@@ -32,19 +34,39 @@ const Pomodoro = () => {
     useState(true);
   const [shouldAutoStartBreaks, setShouldAutoStartBreaks] = useState(true);
 
-  // Сам таймер
+  // Ядро таймера
   const [currentStage, setCurrentStage] = useState(TIMER_STAGES.pomodoro);
+  const [completedPomodoros, setCompletedPomodoros] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(pomodoroTime * 60);
+  const [isRunning, setIsRunning] = useState(false);
+
+  // Звуки таймера
+  const [playStartTimerSound] = useSound(startTimerSound);
+  const [playStopTimerSound] = useSound(stopTimerSound);
+  const [playTimeIsUpSound] = useSound(timeIsUpSound);
 
   const toggleIsUnfold = () => {
     setIsUnfold((prev) => !prev);
   };
 
   const toggleIsSettingsOpen = () => {
-    // TODO: Останавливать таймер
+    setIsRunning(false);
     setIsSettingsOpen((prev) => !prev);
   };
 
-  // Используется для изменения настроек времени таймера
+  const toggleTimer = () => {
+    setIsRunning((prev) => {
+      if (prev) {
+        playStopTimerSound();
+      }
+      else {
+        playStartTimerSound();
+      }
+
+      return !prev;
+    });
+  };
+
   const setTimerTimeSetting = (newValue, valueSetterFunc, validSetterFunc) => {
     validSetterFunc(true);
 
@@ -55,6 +77,7 @@ const Pomodoro = () => {
     valueSetterFunc(newValue);
   };
 
+  // Загрузка настроек из localStorage в самом начале работы приложения
   useEffect(() => {
     const savedPomodoroSettings = JSON.parse(
       localStorage.getItem('savedPomodoroSettings'),
@@ -67,6 +90,7 @@ const Pomodoro = () => {
 
     setIsUnfold(savedPomodoroSettings.isUnfold);
     setIsSettingsOpen(savedPomodoroSettings.isSettingsOpen);
+    setCurrentStage(savedPomodoroSettings.currentStage);
     setPomodoroTime(savedPomodoroSettings.pomodoroTime);
     setShortBreakTime(savedPomodoroSettings.shortBreakTime);
     setLongBreakTime(savedPomodoroSettings.longBreakTime);
@@ -74,10 +98,80 @@ const Pomodoro = () => {
     setShouldAutoStartBreaks(savedPomodoroSettings.shouldAutoStartBreaks);
   }, []);
 
+  // Обновление времени и стадий таймера
+  useEffect(() => {
+    let interval;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime > 1) {
+            return prevTime - 1;
+          } else {
+            playTimeIsUpSound();
+            clearInterval(interval);
+            setIsRunning(false);
+
+            // Логика переключения стадий
+            if (currentStage === TIMER_STAGES.pomodoro) {
+              setCompletedPomodoros((prevCount) => {
+                const newCount = prevCount + 1;
+                // Каждые четыре помидорки начинается долгий перерыв
+                if (newCount % 4 === 0) {
+                  setCurrentStage(TIMER_STAGES.longBreak);
+                } else {
+                  setCurrentStage(TIMER_STAGES.shortBreak);
+                }
+
+                if (shouldAutoStartBreaks) {
+                  setIsRunning(true);
+                }
+
+                return newCount;
+              });
+            } else {
+              setCurrentStage(TIMER_STAGES.pomodoro);
+
+              if (shouldAutoStartPomodoros) {
+                setIsRunning(true);
+              }
+            }
+            return 0;
+          }
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [isRunning, currentStage]);
+
+  // Установка времени, от которого начинает идти таймер, в зависимости от стадии, на которую таймер переключился
+  useEffect(() => {
+    switch (currentStage) {
+      case TIMER_STAGES.pomodoro:
+        setTimeLeft(pomodoroTime * 60);
+        break;
+      case TIMER_STAGES.shortBreak:
+        setTimeLeft(shortBreakTime * 60);
+        break;
+      case TIMER_STAGES.longBreak:
+        setTimeLeft(longBreakTime * 60);
+        break;
+      default:
+        setTimeLeft(pomodoroTime * 60);
+    }
+  }, [
+    currentStage,
+    pomodoroTime,
+    shortBreakTime,
+    longBreakTime
+  ]);
+
+  // Сохранение настроек таймера в localStorage при их изменении
   useEffect(() => {
     const newTimerSettings = {
       isUnfold: isUnfold,
       isSettingsOpen: isSettingsOpen,
+      currentStage: currentStage,
       pomodoroTime: parseInt(pomodoroTime),
       shortBreakTime: parseInt(shortBreakTime),
       longBreakTime: parseInt(longBreakTime),
@@ -102,6 +196,7 @@ const Pomodoro = () => {
   }, [
     isUnfold,
     isSettingsOpen,
+    currentStage,
     pomodoroTime,
     shortBreakTime,
     longBreakTime,
@@ -155,13 +250,30 @@ const Pomodoro = () => {
           style={{ display: isUnfold && !isSettingsOpen ? 'flex' : 'none' }}
         >
           <div className={styles.stages}>
-            <p className={`${styles.stage} ${styles.activeStage}`}>Pomodoro</p>
-            <p className={`${styles.stage}`}>Short Break</p>
-            <p className={`${styles.stage}`}>Long Break</p>
+            <p
+              className={`${styles.stage} ${currentStage === TIMER_STAGES.pomodoro && styles.activeStage}`}
+              onClick={() => setCurrentStage(TIMER_STAGES.pomodoro)}
+            >
+              Pomodoro
+            </p>
+            <p
+              className={`${styles.stage} ${currentStage === TIMER_STAGES.shortBreak && styles.activeStage}`}
+              onClick={() => setCurrentStage(TIMER_STAGES.shortBreak)}
+            >
+              Short Break
+            </p>
+            <p
+              className={`${styles.stage} ${currentStage === TIMER_STAGES.longBreak && styles.activeStage}`}
+              onClick={() => setCurrentStage(TIMER_STAGES.longBreak)}
+            >
+              Long Break
+            </p>
           </div>
-          <p className={styles.time}>25:00</p>
-          {/* TODO: Применить Анину кнопку */}
-          <button className={styles.button}>Start</button>
+          <p className={styles.time}>{formatTime(timeLeft)}</p>
+          {/* TODO: Добавить синюю кнопку сюда */}
+          <button className={styles.button} onClick={toggleTimer}>
+            {isRunning ? 'Stop' : 'Start'}
+          </button>
         </div>
         <div
           className={`${styles.timerPage} ${styles.settings}`}
@@ -247,7 +359,7 @@ const Pomodoro = () => {
         className={styles.foldTime}
         style={{ display: isUnfold ? 'none' : 'block' }}
       >
-        25:00
+        {formatTime(timeLeft)}
       </p>
     </div>
   );
