@@ -16,6 +16,11 @@
   align-items: center;
 }
 
+.inactiveBackButton {
+  border: 1px solid var(--red) !important;
+  background-color: var(--transparent-red) !important;
+}
+
 .timerPage {
   flex-direction: column;
   max-height: 291px;
@@ -94,6 +99,10 @@
   justify-content: flex-start;
   align-items: center;
   gap: 5px;
+
+  text-transform: capitalize;
+
+  user-select: none;
 }
 
 .checkbox {
