@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import TIMER_STAGES from '../../../utils/consts/TIMER_STAGES';
+
 import styles from './Pomodoro.module.css';
 
 import { FiClock } from 'react-icons/fi';
@@ -15,6 +17,7 @@ const Pomodoro = () => {
   const [isUnfold, setIsUnfold] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
+  // Настройки таймера
   // Время указывается в минутах
   const [pomodoroTime, setPomodoroTime] = useState(25);
   const [isValidPomodoroTime, setIsValidPomodoroTime] = useState(true);
@@ -28,6 +31,9 @@ const Pomodoro = () => {
   const [shouldAutoStartPomodoros, setShouldAutoStartPomodoros] =
     useState(true);
   const [shouldAutoStartBreaks, setShouldAutoStartBreaks] = useState(true);
+
+  // Сам таймер
+  const [currentStage, setCurrentStage] = useState(TIMER_STAGES.pomodoro);
 
   const toggleIsUnfold = () => {
     setIsUnfold((prev) => !prev);
