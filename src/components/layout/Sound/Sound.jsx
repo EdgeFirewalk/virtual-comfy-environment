@@ -105,10 +105,7 @@ const Sound = ({ isOpen, sound, deleteSound }) => {
             />
           </div>
         </div>
-        <VolumeSlider
-          value={volume}
-          onChange={(e) => setVolume(e.target.value)}
-        />
+        <VolumeSlider value={volume} onChange={(value) => setVolume(value)} />
       </div>
       <SquareButton
         className={`${styles.button} ${isPlaying && styles.playing}`}
