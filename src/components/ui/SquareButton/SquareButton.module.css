@@ -37,7 +37,7 @@
   font-size: var(--small-text);
   white-space: nowrap;
   text-transform: uppercase;
-  text-overflow: '-';
+  text-overflow: ellipsis;
 
   overflow: hidden;
 }
