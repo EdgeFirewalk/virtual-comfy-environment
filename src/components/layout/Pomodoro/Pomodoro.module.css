@@ -69,6 +69,14 @@
   text-align: center;
 }
 
+.button {
+  margin-bottom: 15px;
+}
+
+.completedPomodoros {
+  align-self: flex-start;
+}
+
 .settings {
   gap: 10px;
 

@@ -58,8 +58,7 @@ const Pomodoro = () => {
     setIsRunning((prev) => {
       if (prev) {
         playStopTimerSound();
-      }
-      else {
+      } else {
         playStartTimerSound();
       }
 
@@ -159,12 +158,7 @@ const Pomodoro = () => {
       default:
         setTimeLeft(pomodoroTime * 60);
     }
-  }, [
-    currentStage,
-    pomodoroTime,
-    shortBreakTime,
-    longBreakTime
-  ]);
+  }, [currentStage, pomodoroTime, shortBreakTime, longBreakTime]);
 
   // Сохранение настроек таймера в localStorage при их изменении
   useEffect(() => {
@@ -274,6 +268,7 @@ const Pomodoro = () => {
           <button className={styles.button} onClick={toggleTimer}>
             {isRunning ? 'Stop' : 'Start'}
           </button>
+          <p className={styles.completedPomodoros}>#{completedPomodoros}</p>
         </div>
         <div
           className={`${styles.timerPage} ${styles.settings}`}
