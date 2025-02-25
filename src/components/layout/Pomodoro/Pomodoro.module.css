@@ -80,7 +80,7 @@
 .settings {
   gap: 10px;
 
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
 }
 
 .settingsBlock {

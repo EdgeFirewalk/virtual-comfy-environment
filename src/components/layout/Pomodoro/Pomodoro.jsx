@@ -30,6 +30,10 @@ const Pomodoro = () => {
   const [longBreakTime, setLongBreakTime] = useState(15);
   const [isValidLongBreakTime, setIsValidLongBreakTime] = useState(true);
 
+  const [longBreakInterval, setLongBreakInterval] = useState(4); // Кол-во помидорок до долгого перерыва
+  const [isValidLongBreakInterval, setIsValidLongBreakInterval] =
+    useState(true);
+
   const [shouldAutoStartPomodoros, setShouldAutoStartPomodoros] =
     useState(true);
   const [shouldAutoStartBreaks, setShouldAutoStartBreaks] = useState(true);
@@ -89,10 +93,10 @@ const Pomodoro = () => {
 
     setIsUnfold(savedPomodoroSettings.isUnfold);
     setIsSettingsOpen(savedPomodoroSettings.isSettingsOpen);
-    setCurrentStage(savedPomodoroSettings.currentStage);
     setPomodoroTime(savedPomodoroSettings.pomodoroTime);
     setShortBreakTime(savedPomodoroSettings.shortBreakTime);
     setLongBreakTime(savedPomodoroSettings.longBreakTime);
+    setLongBreakInterval(savedPomodoroSettings.longBreakInterval);
     setShouldAutoStartPomodoros(savedPomodoroSettings.shouldAutoStartPomodoros);
     setShouldAutoStartBreaks(savedPomodoroSettings.shouldAutoStartBreaks);
   }, []);
@@ -101,6 +105,7 @@ const Pomodoro = () => {
   useEffect(() => {
     let interval;
     if (isRunning) {
+      // TODO: Переписать на setTimeout
       interval = setInterval(() => {
         setTimeLeft((prevTime) => {
           if (prevTime > 1) {
@@ -114,8 +119,7 @@ const Pomodoro = () => {
             if (currentStage === TIMER_STAGES.pomodoro) {
               setCompletedPomodoros((prevCount) => {
                 const newCount = prevCount + 1;
-                // Каждые четыре помидорки начинается долгий перерыв
-                if (newCount % 4 === 0) {
+                if (newCount % longBreakInterval === 0) {
                   setCurrentStage(TIMER_STAGES.longBreak);
                 } else {
                   setCurrentStage(TIMER_STAGES.shortBreak);
@@ -165,22 +169,26 @@ const Pomodoro = () => {
     const newTimerSettings = {
       isUnfold: isUnfold,
       isSettingsOpen: isSettingsOpen,
-      currentStage: currentStage,
       pomodoroTime: parseInt(pomodoroTime),
       shortBreakTime: parseInt(shortBreakTime),
       longBreakTime: parseInt(longBreakTime),
+      longBreakInterval: parseInt(longBreakInterval),
       shouldAutoStartPomodoros: shouldAutoStartPomodoros,
       shouldAutoStartBreaks: shouldAutoStartBreaks,
     };
 
+    // В случае невалидных данных сохраняем дефолтные значения
     if (!isValidPomodoroTime) {
-      newTimerSettings.pomodoroTime = 25; // Сохраняем дефолтное значение
+      newTimerSettings.pomodoroTime = 25;
     }
     if (!isValidShortBreakTime) {
-      newTimerSettings.shortBreakTime = 5; // Сохраняем дефолтное значение
+      newTimerSettings.shortBreakTime = 5;
     }
     if (!isValidLongBreakTime) {
-      newTimerSettings.longBreakTime = 15; // Сохраняем дефолтное значение
+      newTimerSettings.longBreakTime = 15;
+    }
+    if (!isValidLongBreakInterval) {
+      newTimerSettings.longBreakInterval = 4;
     }
 
     localStorage.setItem(
@@ -190,7 +198,6 @@ const Pomodoro = () => {
   }, [
     isUnfold,
     isSettingsOpen,
-    currentStage,
     pomodoroTime,
     shortBreakTime,
     longBreakTime,
@@ -221,7 +228,8 @@ const Pomodoro = () => {
             className={
               isValidPomodoroTime &&
               isValidShortBreakTime &&
-              isValidLongBreakTime
+              isValidLongBreakTime &&
+              isValidLongBreakInterval
                 ? ''
                 : styles.inactiveBackButton
             }
@@ -234,7 +242,8 @@ const Pomodoro = () => {
               !(
                 isValidPomodoroTime &&
                 isValidShortBreakTime &&
-                isValidLongBreakTime
+                isValidLongBreakTime &&
+                isValidLongBreakInterval
               )
             }
           />
@@ -326,7 +335,25 @@ const Pomodoro = () => {
             </div>
           </div>
           <div className={styles.settingsBlock}>
-            <p className={styles.settingsBlockTitle}>Timer</p>
+            <p className={styles.settingsBlockTitle}>Workflow</p>
+            <div className={styles.inputBlock}>
+              <p className={styles.inputLabel}>
+                Long Break Interval (Pomodoros)
+              </p>
+              <NumberInput
+                placeholder="Long Break Interval"
+                min={1}
+                value={longBreakInterval}
+                onChange={(e) =>
+                  setTimerTimeSetting(
+                    e.target.value,
+                    setLongBreakInterval,
+                    setIsValidLongBreakInterval,
+                  )
+                }
+                isValid={isValidLongBreakInterval}
+              />
+            </div>
             <div className={styles.checkboxBlock}>
               <input
                 id="pomodoros"
