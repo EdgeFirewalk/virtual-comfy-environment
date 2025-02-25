@@ -103,48 +103,50 @@ const Pomodoro = () => {
 
   // Обновление времени и стадий таймера
   useEffect(() => {
-    let interval;
-    if (isRunning) {
-      // TODO: Переписать на setTimeout
-      interval = setInterval(() => {
-        setTimeLeft((prevTime) => {
-          if (prevTime > 1) {
-            return prevTime - 1;
-          } else {
-            playTimeIsUpSound();
-            clearInterval(interval);
-            setIsRunning(false);
+    let timeout;
 
-            // Логика переключения стадий
-            if (currentStage === TIMER_STAGES.pomodoro) {
-              setCompletedPomodoros((prevCount) => {
-                const newCount = prevCount + 1;
-                if (newCount % longBreakInterval === 0) {
-                  setCurrentStage(TIMER_STAGES.longBreak);
-                } else {
-                  setCurrentStage(TIMER_STAGES.shortBreak);
-                }
+    const tick = () => {
+      setTimeLeft((prevTime) => {
+        if (prevTime > 1) {
+          timeout = setTimeout(tick, 1000);
+          return prevTime - 1;
+        } else {
+          playTimeIsUpSound();
+          setIsRunning(false);
 
-                if (shouldAutoStartBreaks) {
-                  setIsRunning(true);
-                }
+          // Логика переключения стадий
+          if (currentStage === TIMER_STAGES.pomodoro) {
+            setCompletedPomodoros((prevCount) => {
+              const newCount = prevCount + 1;
+              if (newCount % longBreakInterval === 0) {
+                setCurrentStage(TIMER_STAGES.longBreak);
+              } else {
+                setCurrentStage(TIMER_STAGES.shortBreak);
+              }
 
-                return newCount;
-              });
-            } else {
-              setCurrentStage(TIMER_STAGES.pomodoro);
-
-              if (shouldAutoStartPomodoros) {
+              if (shouldAutoStartBreaks) {
                 setIsRunning(true);
               }
+
+              return newCount;
+            });
+          } else {
+            setCurrentStage(TIMER_STAGES.pomodoro);
+
+            if (shouldAutoStartPomodoros) {
+              setIsRunning(true);
             }
-            return 0;
           }
-        });
-      }, 1000);
+          return 0;
+        }
+      });
+    };
+
+    if (isRunning) {
+      timeout = setTimeout(tick, 1000);
     }
 
-    return () => clearInterval(interval);
+    return () => clearTimeout(timeout);
   }, [isRunning, currentStage]);
 
   // Установка времени, от которого начинает идти таймер, в зависимости от стадии, на которую таймер переключился
