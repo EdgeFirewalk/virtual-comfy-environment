@@ -1,28 +1,24 @@
 /* Переменные для цветов и размеров */
-:root {
-    --button-width: 115px;
-    --button-height: 35px;
-    --button-bg-color: #0C8CE9;
-    --button-text-color: #D9D9D9;
-    --button-shadow-color: rgba(0, 0, 0, 0.2);
-  }
+
   
   /* Стили для кнопки */
   .button {
-    width: var(--button-width);
-    height: var(--button-height);
-    background-color: var(--button-bg-color);
-    color: var(--button-text-color);
+    display: inline-flex; /* Используем флексбокс для выравнивания содержимого */
+    align-items: center; /* Выравниваем содержимое по вертикали */
+    justify-content: center; /* Выравниваем содержимое по горизонтали */
+    padding: 8px 16px; /* Внутренние отступы (можно настроить под свои нужды) */
+    background-color: var(--blue);
+    color: var(--white);
     border: none;
-    border-radius: 8px;
-    font-size: 18px;
+    border-radius: var(--border-radius-big);
     cursor: pointer;
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 6px var(--button-shadow-color);
     transition: box-shadow 0.1s ease;
-    font-family: 'K2D', sans-serif; 
     font-weight: 400;
+    min-width: fit-content; /* Минимальная ширина по содержимому */
+    white-space: nowrap; /* Запрещаем перенос текста */
   }
   
   /* Эффект нажатия */
