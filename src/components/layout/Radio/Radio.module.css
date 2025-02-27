@@ -1,0 +1,20 @@
+/* Контейнер для текста и блока с кнопками */
+.radioContainer {
+  position: fixed;
+  left: var(--absolute-margin);
+  bottom: var(--absolute-margin);
+  display: flex;
+  flex-direction: column;
+}
+/* Название радиостанции */
+.stationName {
+  color: black;
+  text-align: left;
+}
+.block {
+    display: flex;
+    gap: var(--square-buttons-gap);
+  }
+
+
+
