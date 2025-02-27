@@ -2,65 +2,79 @@ import React, { useState } from 'react';
 
 import styles from './Radio.module.css';
 
-import { FaArrowLeft, FaPause, FaArrowRight, FaVolumeUp } from 'react-icons/fa'; // Импортируем иконки из FontAwesome
-import { MdVolumeUp, MdRadio } from 'react-icons/md'; // Импортируем иконку радио из Material Design
+import { FiSkipBack, FiSkipForward, FiPlay, FiRadio } from "react-icons/fi";
 
 import UIBlock from '../../ui/UIBlock/UIBlock';
 import SquareButton from '../../ui/SquareButton/SquareButton';
-import RadioStationModal from '../Modals/RadioStationsModal/RadioStationModal';
+import RadioStationModal from '../Modals/RadioStationsModal/RadioStationsModal';
+import VolumeSlider from '../../ui/VolumeSlider/VolumeSlider';
 
 const Radio = () => {
-  const [isRadioStationModalOpen, setIsRadioStationModalOpen] = useState(false);
-  const [volume, setVolume] = useState(50); // Состояние для громкости (значение от 0 до 100)
+  const [currentStation, setCurrentStation] = useState('Select a station'); // Состояние текущей радиостанции
+  const [isRadioStationsModalOpen, setIsRadioStationsModalOpen] = useState(false);
+  const [volume, setVolume] = useState(1); // Состояние громкости начальное
+  
 
-  const openRadioStationModal = () => {
-    setIsRadioStationModalOpen(true);
+  // Функция для открытия модального окна
+  const openRadioStationsModal = () => {
+    setIsRadioStationsModalOpen(true);
   };
 
-  const closeRadioStationModal = () => {
-    setIsRadioStationModalOpen(false);
+  // Функция для закрытия модального окна
+  const closeRadioStationsModal = () => {
+    setIsRadioStationsModalOpen(false);
+  };
+
+  // Функция для выбора радиостанции
+  const handleStationSelect = (station) => {
+    setCurrentStation(station); // Обновляем текущую станцию
   };
 
   return (
-    <div>
-      {/* Блок с кнопками */}
-      <UIBlock className={styles.block}>
-        {/* Кнопка 1 (Стрелка влево) */}
-        <SquareButton icon={<FaArrowLeft />} className="button" />
+    <>
+      {/* Контейнер для текста и блока с кнопками */}
+      <div className={styles.radioContainer}>
+      {/* Название текущей радиостанции */}
+      <div className={styles.stationName}>
+          {currentStation}
+      </div>
+        {/* Блок с кнопками */}
+        <UIBlock className={styles.block}>
+          {/* Кнопка 1 (Стрелка влево) */}
+          <SquareButton icon={<FiSkipBack />} className="button" />
 
-        {/* Кнопка 2 (Пауза) */}
-        <SquareButton icon={<FaPause />} className="button" />
+          {/* Кнопка 2 (Пауза) */}
+          <SquareButton icon={<FiPlay />} className="button" />
 
-        {/* Кнопка 3 (Стрелка вправо) */}
-        <SquareButton icon={<FaArrowRight />} className="button" />
+          {/* Кнопка 3 (Стрелка вправо) */}
+          <SquareButton icon={<FiSkipForward />} className="button" />
 
-        {/* Кнопка 4 (Громкость + слайдер) */}
-        <div className={styles.volumeControl}>
-          <MdVolumeUp className={styles.volumeIcon} size={24} color="white" />
-          <input
-            type="range"
-            min={0}
-            max={100}
+          {/* Громкость + слайдер (используем VolumeSlider) */}
+          <div className={styles.volumeControl}>
+            
+          <VolumeSlider
             value={volume}
-            onChange={(e) => setVolume(e.target.value)}
+            onChange={(value) => setVolume(value)} // Принимаем значение напрямую
             className={styles.volumeSlider}
+            />
+          </div>
+          
+
+          {/* Кнопка 5 (Радио, открывает модальное окно) */}
+          <SquareButton
+            icon={<FiRadio />} 
+            onClick={openRadioStationsModal}
+            className="radio-station-button"
           />
+        </UIBlock>
         </div>
-
-        {/* Кнопка 5 (Радио, открывает модальное окно) */}
-        <SquareButton
-          icon={<MdRadio />} // Используем Material Design иконку
-          onClick={openRadioStationModal}
-          className="radio-station-button"
+        {/* Модальное окно RadioStationModal */}
+        <RadioStationModal
+          isOpen={isRadioStationsModalOpen}
+          onClose={closeRadioStationsModal}
         />
-      </UIBlock>
-
-      {/* Модальное окно RadioStationModal */}
-      <RadioStationModal
-        isOpen={isRadioStationModalOpen}
-        onClose={closeRadioStationModal}
-      />
-    </div>
+    </>
+    
   );
 };
 
