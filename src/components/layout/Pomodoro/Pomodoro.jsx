@@ -203,6 +203,7 @@ const Pomodoro = () => {
     pomodoroTime,
     shortBreakTime,
     longBreakTime,
+    longBreakInterval,
     shouldAutoStartPomodoros,
     shouldAutoStartBreaks,
   ]);
