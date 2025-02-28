@@ -1,3 +1,4 @@
+import AppSizeWarning from './components/layout/AppSizeWarning/AppSizeWarning';
 // import Pomodoro
 import Sounds from './components/layout/Sounds/Sounds';
 // import Radio
@@ -6,6 +7,7 @@ import ManualAndFullscreenButton from './components/layout/ManualAndFullscreenBu
 function App() {
   return (
     <>
+      <AppSizeWarning />
       {/* Pomodoro */}
       <Sounds />
       {/* Radio */}
