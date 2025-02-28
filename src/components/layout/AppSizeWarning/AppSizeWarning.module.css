@@ -1,0 +1,31 @@
+.warning {
+  position: fixed;
+
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+  text-align: center;
+
+  background-color: var(--transparent-grey-1);
+
+  z-index: 9999999;
+}
+
+.title {
+  margin-bottom: 10px;
+
+  font-size: var(--modal-title);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* TODO: Подобрать подходящие значения, когда будет реализовано радио */
+@media (max-width: 890px), (max-height: 490px) {
+  .warning {
+    display: flex;
+  }
+}
