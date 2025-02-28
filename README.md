@@ -19,6 +19,8 @@ The app is available here: <GHPages-Link>
 
 ## 📷 Screenshots
 
+<!-- TODO: Добавить настоящие скриншоты в папку со скринами -->
+
 ### App General View
 <p align="center"><img src="screenshots/Main.png" alt="Main View"></p>
 
