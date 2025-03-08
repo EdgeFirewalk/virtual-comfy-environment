@@ -1,39 +1,25 @@
-/* Modal.module.css */
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(100%);
-  }
-}
-
+/* Анимация для выезжания модального окна */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh; /* Занимает всю высоту экрана */
   background-color: var(--transparent-grey-1); /* Полупрозрачный фон */
   display: flex;
   justify-content: center;
   align-items: flex-end; /* Начинаем анимацию снизу */
   z-index: 1000;
-  animation: slideUp 0.5s ease-out forwards; /* Анимация открытия */
+  transform: translateY(100vh); /* Изначально скрыто внизу */
+  transition: transform var(--modal-transition-duration) ease-out; /* Анимация для transform */
 }
 
-/* Класс для анимации закрытия */
-.modalOverlay.closing {
-  animation: slideDown 0.5s ease-out forwards; /* Анимация закрытия */
+.modalOverlay.open {
+  transform: translateY(0); /* Поднимаем наверх */
+}
+
+.modalOverlay.closed {
+  transform: translateY(100vh); /* Скрываем внизу */
 }
 
 .modalContent {
@@ -43,9 +29,8 @@
   color: var(--white); /* Текст белый */
 }
 
-
 /* Блок заголовка и кнопки закрытия */
-.modal_header {
+.modalHeader {
   position: absolute;
   top: var(--absolute-margin); /* Отступ от верха экрана */
   left: var(--absolute-margin); /* Отступ от левого края */
@@ -55,8 +40,6 @@
   justify-content: space-between; /* Расположение элементов по разные стороны */
   padding: var(--absolute-margin) var(--absolute-margin); /* Дополнительный отступ внутри блока */
 }
-
-
 
 /* Надпись в левом верхнем углу */
 .label {
