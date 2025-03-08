@@ -64,7 +64,7 @@ const Radio = () => {
           <SquareButton
             icon={<FiRadio />} 
             onClick={openRadioStationsModal}
-            className="radio-station-button"
+            
           />
         </UIBlock>
         </div>
