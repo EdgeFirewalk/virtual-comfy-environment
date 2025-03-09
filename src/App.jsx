@@ -1,6 +1,6 @@
 import Pomodoro from './components/layout/Pomodoro/Pomodoro';
 import Sounds from './components/layout/Sounds/Sounds';
-// import Radio
+import Radio from './components/layout/Radio/Radio';
 import ManualAndFullscreenButton from './components/layout/ManualAndFullscreenButton/ManualAndFullscreenButton';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <>
       <Pomodoro />
       <Sounds />
-      {/* Radio */}
+      <Radio />
       <ManualAndFullscreenButton />
     </>
   );
