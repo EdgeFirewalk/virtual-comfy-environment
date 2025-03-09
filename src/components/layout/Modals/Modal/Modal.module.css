@@ -1,0 +1,50 @@
+/* Анимация для выезжания модального окна */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Занимает всю высоту экрана */
+  background-color: var(--transparent-grey-1); /* Полупрозрачный фон */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Начинаем анимацию снизу */
+  z-index: 1000;
+  transform: translateY(100vh); /* Изначально скрыто внизу */
+  transition: transform var(--modal-transition-duration) ease-out; /* Анимация для transform */
+}
+
+.modalOverlay.open {
+  transform: translateY(0); /* Поднимаем наверх */
+}
+
+.modalOverlay.closed {
+  transform: translateY(120vh); /* Скрываем внизу */
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 1200px; /* Ограничиваем ширину контента */
+  background: transparent; /* Убираем белый фон */
+  color: var(--white); /* Текст белый */
+}
+
+/* Блок заголовка и кнопки закрытия */
+.modalHeader {
+  position: absolute;
+  top: var(--absolute-margin); /* Отступ от верха экрана */
+  left: var(--absolute-margin); /* Отступ от левого края */
+  right: var(--absolute-margin); /* Отступ от правого края */
+  display: flex;
+  align-items: center; /* Выравнивание элементов по центру вертикали */
+  justify-content: space-between; /* Расположение элементов по разные стороны */
+  padding: var(--absolute-margin) var(--absolute-margin); /* Дополнительный отступ внутри блока */
+}
+
+/* Надпись в левом верхнем углу */
+.label {
+  font-size: var(--modal-title);
+  font-weight: 400;
+  color: var(--white);
+  margin: 0; /* Убираем стандартные отступы текста */
+}
