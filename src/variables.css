@@ -24,7 +24,11 @@
   --grey-2: #444444; /* Обводка UIBlock */
   --grey-3: #383838; /* Задний фон инпутов, подсвечивание кнопок при наведении */
 
+  /*Button*/
+  --button-width: 115px;
+  --button-height: 35px;
   --blue: #0c8ce9;
+  --button-shadow-color: rgba(0, 0, 0, 0.2);
 
   --red: #e03e1a;
   --transparent-red: #e03e1a30;
