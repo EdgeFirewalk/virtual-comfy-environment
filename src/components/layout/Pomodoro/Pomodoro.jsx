@@ -14,6 +14,7 @@ import timeIsUpSound from '../../../assets/sounds/times-up.wav';
 
 import UIBlock from '../../ui/UIBlock/UIBlock';
 import SquareButton from '../../ui/SquareButton/SquareButton';
+import Button from '../../ui/Button/Button';
 import NumberInput from '../../ui/InputFields/NumberInput/NumberInput';
 
 const Pomodoro = () => {
@@ -276,10 +277,9 @@ const Pomodoro = () => {
             </p>
           </div>
           <p className={styles.time}>{formatTime(timeLeft)}</p>
-          {/* TODO: Добавить синюю кнопку сюда */}
-          <button className={styles.button} onClick={toggleTimer}>
+          <Button className={styles.button} onClick={toggleTimer}>
             {isRunning ? 'Stop' : 'Start'}
-          </button>
+          </Button>
           <p className={styles.completedPomodoros}>#{completedPomodoros}</p>
         </div>
         <div
