@@ -23,8 +23,7 @@
   text-transform: uppercase;
 }
 
-/* TODO: Подобрать подходящие значения, когда будет реализовано радио */
-@media (max-width: 890px), (max-height: 490px) {
+@media (max-width: 835px), (max-height: 495px) {
   .warning {
     display: flex;
   }
