@@ -8,13 +8,15 @@
 }
 /* Название радиостанции */
 .stationName {
-  color: black;
   text-align: left;
+  text-shadow:
+    -1px -1px 0 var(--transparent-black),
+    1px -1px 0 var(--transparent-black),
+    -1px 1px 0 var(--transparent-black),
+    1px 1px 0 var(--transparent-black);
 }
 .block {
-    display: flex;
-    gap: var(--square-buttons-gap);
-  }
-
-
-
+  display: flex;
+  align-items: center;
+  gap: var(--square-buttons-gap);
+}

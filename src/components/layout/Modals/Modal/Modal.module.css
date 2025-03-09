@@ -19,7 +19,7 @@
 }
 
 .modalOverlay.closed {
-  transform: translateY(100vh); /* Скрываем внизу */
+  transform: translateY(120vh); /* Скрываем внизу */
 }
 
 .modalContent {
