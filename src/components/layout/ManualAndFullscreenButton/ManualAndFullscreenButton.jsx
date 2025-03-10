@@ -1,12 +1,21 @@
+import { useState } from 'react';
+
 import styles from './ManualAndFullscreenButton.module.css';
 
 import { FiBookOpen } from 'react-icons/fi';
 import { FiMaximize } from 'react-icons/fi';
 
 import UIBlock from '../../ui/UIBlock/UIBlock';
+import Manual from '../Manual/Manual';
 import SquareButton from '../../ui/SquareButton/SquareButton';
 
 const ManualAndFullscreenButton = () => {
+  const [isManualOpen, setIsManualOpen] = useState(true);
+
+  const closeManual = () => {
+    setIsManualOpen(false);
+  };
+
   const toggleFullscreen = () => {
     const element = document.documentElement; // Берём весь документ
 
@@ -25,7 +34,11 @@ const ManualAndFullscreenButton = () => {
 
   return (
     <UIBlock className={styles.block}>
-      <SquareButton icon={<FiBookOpen />} />
+      <Manual isOpen={isManualOpen} onClose={closeManual} />
+      <SquareButton
+        icon={<FiBookOpen />}
+        onClick={() => setIsManualOpen(true)}
+      />
       <SquareButton icon={<FiMaximize />} onClick={toggleFullscreen} />
     </UIBlock>
   );

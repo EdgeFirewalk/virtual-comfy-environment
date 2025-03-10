@@ -1,0 +1,37 @@
+.upperTexts {
+  text-align: center;
+}
+
+.description {
+  margin-top: 15px;
+}
+
+.authors {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin: 15px 0;
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.authorImg {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.authorName {
+  margin-bottom: 15px;
+}
+
+.linkImg {
+  width: 45px;
+  height: 45px;
+}

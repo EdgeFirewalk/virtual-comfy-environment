@@ -1,0 +1,23 @@
+.manual {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 1px solid red;
+}
+
+.left {
+  max-width: 280px;
+
+  border-right: 1px solid var(--white);
+}
+
+.logo {
+  text-align: center;
+
+  border-bottom: 1px solid var(--white);
+}
+
+.body {
+  overflow-y: auto;
+}
