@@ -1,0 +1,30 @@
+.warning {
+  position: fixed;
+
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+  text-align: center;
+
+  background-color: var(--transparent-grey-1);
+
+  z-index: 9999999;
+}
+
+.title {
+  margin-bottom: 10px;
+
+  font-size: var(--modal-title);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+@media (max-width: 835px), (max-height: 495px) {
+  .warning {
+    display: flex;
+  }
+}
