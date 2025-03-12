@@ -1,5 +1,5 @@
 /* Анимация для выезжания модального окна */
-.modalOverlay {
+.modalContainer {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,38 +7,32 @@
   height: 100vh; /* Занимает всю высоту экрана */
   background-color: var(--transparent-grey-1); /* Полупрозрачный фон */
   display: flex;
-  justify-content: center;
-  align-items: flex-end; /* Начинаем анимацию снизу */
+  flex-direction: column; /* Располагаем элементы вертикально */
+  justify-content: flex-start; /* Выравниваем элементы по верху */
+  align-items: center; /* Центрируем по горизонтали */
   z-index: 1000;
   transform: translateY(100vh); /* Изначально скрыто внизу */
   transition: transform var(--modal-transition-duration) ease-out; /* Анимация для transform */
+  padding: var(--absolute-padding); /*Отступы внутри модального окна */
 }
 
-.modalOverlay.open {
+.modalContainer.open {
   transform: translateY(0); /* Поднимаем наверх */
 }
 
-.modalOverlay.closed {
-  transform: translateY(120vh); /* Скрываем внизу */
-}
-
-.modalContent {
-  width: 100%;
-  max-width: 1200px; /* Ограничиваем ширину контента */
-  background: transparent; /* Убираем белый фон */
-  color: var(--white); /* Текст белый */
+.modalContainer.closed {
+  transform: translateY(300vh); /* Скрываем внизу */
 }
 
 /* Блок заголовка и кнопки закрытия */
 .modalHeader {
-  position: absolute;
-  top: var(--absolute-margin); /* Отступ от верха экрана */
-  left: var(--absolute-margin); /* Отступ от левого края */
-  right: var(--absolute-margin); /* Отступ от правого края */
+  width: 100%;
+   /* Ограничиваем ширину контента */
   display: flex;
   align-items: center; /* Выравнивание элементов по центру вертикали */
   justify-content: space-between; /* Расположение элементов по разные стороны */
-  padding: var(--absolute-margin) var(--absolute-margin); /* Дополнительный отступ внутри блока */
+  
+  
 }
 
 /* Надпись в левом верхнем углу */
@@ -47,4 +41,12 @@
   font-weight: 400;
   color: var(--white);
   margin: 0; /* Убираем стандартные отступы текста */
+}
+
+/* Стили для контейнера контента */
+.modalBody {
+  width: 100%;
+  overflow-y: auto; /* Добавляем скролл при необходимости */
+  padding: calc(var(--absolute-padding) + 5px);
+  
 }
