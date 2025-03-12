@@ -1,4 +1,5 @@
 import styles from './AboutPage.module.css';
+import typography from '../Typography.module.css';
 
 const AboutPage = () => {
   return (
@@ -18,7 +19,7 @@ const AboutPage = () => {
           />
           <h4 className={styles.authorName}>Igor Lubenskiy</h4>
           <div className={styles.media}>
-            <a href="https://github.com/EdgeFirewalk">
+            <a href="https://github.com/EdgeFirewalk" target="_blank">
               <img
                 className={styles.linkImg}
                 src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"
@@ -35,7 +36,7 @@ const AboutPage = () => {
           />
           <h4 className={styles.authorName}>Anna Tupota</h4>
           <div className={styles.media}>
-            <a href="https://github.com/AnnaTupota">
+            <a href="https://github.com/AnnaTupota" target="_blank">
               <img
                 className={styles.linkImg}
                 src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"
@@ -45,21 +46,33 @@ const AboutPage = () => {
           </div>
         </div>
       </div>
-      <p>
+      <p className={typography.paragraph}>
         A place where you can study, work, workout, cook, chill, fall asleep, or
         do anything else that you want to feel relaxed and focused while doing.
       </p>
-      <h3>
+      <h3 className={typography.heading}>
         The app has all the necessary tools for you to focus and keep track of
         time:
       </h3>
-      <p>🌄 Environmental Sounds</p>
-      <p>🎵 Background Music</p>
-      <p>⏳ Pomodoro Timer</p>
-      <p>
+      <div className={typography.list}>
+        <p className={typography.paragraph}>🌄 Environmental Sounds</p>
+        <p className={typography.paragraph}>🎵 Background Music</p>
+        <p className={typography.paragraph}>⏳ Pomodoro Timer</p>
+      </div>
+      <p className={typography.paragraph}>
         📖 You can read about all of the features and how to use them in our
         comprehensive manual inside the app.
       </p>
+      <h3 className={typography.heading}>
+        ⚙️ The tools are fully customizable.
+      </h3>
+      <p className={typography.paragraph}>
+        You can add any sounds you want, play any music you like, and set up the
+        timer however you prefer.
+      </p>
+      <h3 className={typography.heading}>
+        😊 Create your own environment and make yourself comfortable.
+      </h3>
     </>
   );
 };

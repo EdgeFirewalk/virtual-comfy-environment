@@ -22,8 +22,8 @@
 }
 
 .authorImg {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   object-fit: cover;
 }
 
@@ -32,6 +32,6 @@
 }
 
 .linkImg {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
 }

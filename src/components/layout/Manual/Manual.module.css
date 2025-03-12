@@ -1,9 +1,6 @@
 .manual {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  border: 1px solid red;
+  margin: 10px 0;
 }
 
 .left {
@@ -18,6 +15,29 @@
   border-bottom: 1px solid var(--white);
 }
 
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px;
+}
+
+.navLink {
+  padding: 3px 8px;
+
+  cursor: pointer;
+
+  transition-property: background-color;
+  transition-duration: var(--ui-transition-duration);
+}
+
+.navLink:hover {
+  background-color: var(--transparent-white);
+}
+
 .body {
+  width: 100%;
+  margin-left: 10px;
+
   overflow-y: auto;
 }
