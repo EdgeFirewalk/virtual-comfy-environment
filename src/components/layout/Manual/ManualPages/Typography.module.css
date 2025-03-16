@@ -1,9 +1,13 @@
 .paragraph {
-  margin: 5px 0;
+  margin: 8px 0;
 }
 
-.paragraph span {
+.paragraph span.info {
   color: var(--blue);
+}
+
+.paragraph span.warning {
+  color: var(--red);
 }
 
 .link {
