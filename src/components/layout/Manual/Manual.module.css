@@ -23,7 +23,9 @@
 }
 
 .navLink {
-  padding: 3px 8px;
+  padding: 3px 10px;
+
+  border: 1px solid transparent;
 
   cursor: pointer;
 
@@ -35,10 +37,15 @@
   background-color: var(--transparent-white);
 }
 
+.activeLink {
+  border: 1px solid var(--white);
+}
+
 .body {
   flex-grow: 1;
   width: 100%;
   margin-left: 10px;
+  padding-right: 5px;
 
   overflow-y: auto;
 }
