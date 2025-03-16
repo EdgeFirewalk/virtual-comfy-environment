@@ -5,9 +5,9 @@ const AboutPage = () => {
   return (
     <>
       <div className={styles.upperTexts}>
-        <h3>Welcome to</h3>
-        <h3>your own</h3>
-        <h2>Virtual Comfortable Environment</h2>
+        <h2>Welcome to</h2>
+        <h2>your own</h2>
+        <h1>Virtual Comfortable Environment</h1>
         <p className={styles.description}>an application made with ❤️ by:</p>
       </div>
       <div className={styles.authors}>
@@ -59,10 +59,6 @@ const AboutPage = () => {
         <p className={typography.paragraph}>🎵 Background Music</p>
         <p className={typography.paragraph}>⏳ Pomodoro Timer</p>
       </div>
-      <p className={typography.paragraph}>
-        📖 You can read about all of the features and how to use them in our
-        comprehensive manual inside the app.
-      </p>
       <h3 className={typography.heading}>
         ⚙️ The tools are fully customizable.
       </h3>
