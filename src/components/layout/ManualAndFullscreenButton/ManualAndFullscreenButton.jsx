@@ -10,7 +10,7 @@ import Manual from '../Manual/Manual';
 import SquareButton from '../../ui/SquareButton/SquareButton';
 
 const ManualAndFullscreenButton = () => {
-  const [isManualOpen, setIsManualOpen] = useState(true);
+  const [isManualOpen, setIsManualOpen] = useState(false);
 
   const closeManual = () => {
     setIsManualOpen(false);
