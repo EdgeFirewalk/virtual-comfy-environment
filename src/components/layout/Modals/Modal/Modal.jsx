@@ -18,9 +18,7 @@ const Modal = ({ isOpen, onClose, label, children, className }) => {
         />
       </div>
       {/* Дочерние элементы (контент модального окна) */}
-      <div className={styles.modalBody}>
-        {children}
-      </div>
+      <div className={styles.modalBody}>{children}</div>
     </div>
   );
 };
