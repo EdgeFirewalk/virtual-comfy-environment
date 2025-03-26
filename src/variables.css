@@ -5,7 +5,7 @@
 
   --square-buttons-gap: 5px; /* Используется для расположения кнопок в UIBlock с использованием FlexBox */
 
-  --absolute-padding:5px; /* Используется для Modal */
+  --absolute-padding: 5px; /* Используется для Modal */
 
   /* Размеры шрифтов */
   --small-text: 12px;
@@ -49,4 +49,20 @@
   /* Длительности переходов */
   --ui-transition-duration: 0.3s; /* Кнопки, поля ввода и всякое такое */
   --modal-transition-duration: 0.2s; /* Модальное окно */
+
+  /* Размеры окошек */
+  --card-width: 320px;
+  --card-height: 260px;
+
+  /* Цвета */
+  --card-border-color: var(--grey-4);
+  --card-hover-border-color: var(--grey-4);
+  --card-background: var(--grey-3);
+
+  /* Отступы */
+  --card-margin: 10px;
+  --card-padding: 8px;
+
+  /* Анимации */
+  --card-transition: border-color 0.3s ease;
 }
