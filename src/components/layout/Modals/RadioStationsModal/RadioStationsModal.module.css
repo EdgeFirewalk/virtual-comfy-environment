@@ -1,0 +1,172 @@
+/* Основные стили для контейнера */
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+/* Стили для окошка добавления новой радиостанции */
+.addRadioStation {
+  width: var(--card-width);
+  height: var(--card-height);
+  background: transparent;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: var(--card-margin);
+  cursor: pointer;
+  transition: var(--card-transition);
+}
+
+.addRadioStation:hover {
+  border-color: var(--card-hover-border-color);
+}
+
+/* Стили для иконки плюса */
+.addIcon {
+  font-size: 24px;
+  color: var(--transparent-grey-1);
+  margin-bottom: 12px;
+}
+
+/* Стили для текста */
+.addText {
+  font-size: 16px;
+  color: var(--white);
+  text-align: center;
+}
+
+/* Стили для формы */
+.formLabel {
+  font-size: 16px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+/* Стили для поля ввода */
+.input {
+  width: 80%;
+  padding: 8px;
+  border: 0px;
+  border-radius: var(--border-radius-big);
+  background: transparent;
+  color: var(--white);
+  font-size: 14px;
+  background-color: var(--grey-3);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--transparent-grey-1);
+}
+
+/* Стили для кнопки Save */
+.saveButton {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius-big);
+  cursor: pointer;
+}
+
+/* Стили для списка добавленных радиостанций */
+.savedUrls {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Стили для каждого окошка с музыкой */
+.urlItem {
+  width: var(--card-width);
+  height: var(--card-height);
+  margin: var(--card-margin);
+  position: relative;
+  border: 1px solid var(--card-border-color);
+  overflow: hidden;
+  background: var(--card-hover-border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.urlItem:hover {
+  background: var(--card-background);
+}
+
+/* Внутренний контейнер для картинки и текста */
+.urlItemContent {
+  padding: var(--card-padding);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Стили для картинки */
+.thumbnail {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Стили для названия видео */
+.videoTitle {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--white);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Стили для иконок действий */
+.actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.editIcon,
+.deleteIcon {
+  font-size: 20px;
+  color: var(--white);
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.editIcon:hover,
+.deleteIcon:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Стили для оверлея редактирования */
+.editOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Стили для формы редактирования */
+.editForm {
+  background: var(--grey-3);
+  padding: 20px;
+  border-radius: var(--border-radius-big);
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+}
