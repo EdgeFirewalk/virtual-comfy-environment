@@ -3,7 +3,7 @@ import Modal from '../Modal/Modal';
 import styles from './RadioStationsModal.module.css';
 import { FiPlus, FiX, FiEdit } from 'react-icons/fi';
 import Button from '../../../ui/Button/Button';
-import DEFAULT_STATIONS from 'd:/project_frontend/virtual-comfy-environment/src/utils/consts/DEFAULT_STATIONS.JS';
+/*import DEFAULT_STATIONS from 'd:/project_frontend/virtual-comfy-environment/src/utils/consts/DEFAULT_STATIONS.js';*/
 
 const RadioStationsModal = ({
   isOpen,
