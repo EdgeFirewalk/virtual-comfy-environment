@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/youtube';
 import AppSizeWarning from './components/layout/AppSizeWarning/AppSizeWarning';
 import Pomodoro from './components/layout/Pomodoro/Pomodoro';
 import Sounds from './components/layout/Sounds/Sounds';
@@ -40,8 +40,8 @@ function App() {
         )}
       </div>
 
-      {/* Полупрозрачный тёмный блок */}
-      {backgroundVideo && <div className={styles.darkOverlay} />}
+      {/* Полупрозрачный тёмный блок (теперь всегда отображается) */}
+      <div className={styles.darkOverlay} />
 
       {/* Компоненты */}
       <AppSizeWarning />

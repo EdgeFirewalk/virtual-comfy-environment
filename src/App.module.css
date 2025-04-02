@@ -8,6 +8,7 @@
   height: 100%;
   z-index: -1; /* Помещаем фон под всеми компонентами */
   overflow: hidden;
+  user-select: none;
   pointer-events: none; /* Блокируем взаимодействие с видео */
 }
 
@@ -30,3 +31,4 @@
   min-height: '100%';
   object-fit: 'cover';
 }
+
