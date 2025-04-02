@@ -1,5 +1,4 @@
-// utils/consts/DEFAULT_STATIONS.js
-export default [
+const default_stations =  [
   {
     id: 1,
     url: 'https://www.youtube.com/watch?v=I24GTW0O_hc&t=18s',
@@ -19,3 +18,6 @@ export default [
     title: 'Classical Piano Music',
   },
 ];
+export default default_stations;
+
+
