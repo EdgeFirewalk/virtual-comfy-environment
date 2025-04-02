@@ -81,7 +81,7 @@ const RadioStationsModal = ({
   const handleStationClick = useCallback((station) => {
     localStorage.setItem('lastPlayedStation', JSON.stringify(station));
     onStationSelect(station);
-    onClose(); // Закрываем модальное окно после выбора станции
+    onClose();
   }, [onStationSelect, onClose]);
 
   const handleAddRadioStationClick = () => {
@@ -169,6 +169,14 @@ const RadioStationsModal = ({
     }
   }, [savedUrls, editName, editUrl, currentPlayingStation, onStationSelect, setSavedUrls, validateEditForm, getYouTubeVideoId]);
 
+  // Обработчик нажатия клавиши Enter
+  const handleKeyDown = (e, action) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      action();
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} label="Available Radio Stations">
       <div className={styles.content}>
@@ -185,6 +193,7 @@ const RadioStationsModal = ({
               className={styles.input}
               value={youtubeUrl}
               onChange={(e) => setYoutubeUrl(e.target.value)}
+              onKeyDown={(e) => handleKeyDown(e, handleSaveUrl)}
               isValid={!formErrors.url}
               onBlur={() => setFormErrors(prev => ({ ...prev, url: !getYouTubeVideoId(youtubeUrl) }))}
             />
@@ -196,6 +205,7 @@ const RadioStationsModal = ({
               className={styles.input}
               value={stationName}
               onChange={(e) => setStationName(e.target.value)}
+              onKeyDown={(e) => handleKeyDown(e, handleSaveUrl)}
               isValid={!formErrors.name}
               onBlur={() => setFormErrors(prev => ({ ...prev, name: stationName.trim().length === 0 }))}
             />
@@ -220,6 +230,7 @@ const RadioStationsModal = ({
                     className={styles.input}
                     value={editUrl}
                     onChange={(e) => setEditUrl(e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, () => saveEdit(url.id))}
                     isValid={!editFormErrors.url}
                     onBlur={() => setEditFormErrors(prev => ({ ...prev, url: !getYouTubeVideoId(editUrl) }))}
                   />
@@ -231,6 +242,7 @@ const RadioStationsModal = ({
                     className={styles.input}
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, () => saveEdit(url.id))}
                     isValid={!editFormErrors.name}
                     onBlur={() => setEditFormErrors(prev => ({ ...prev, name: editName.trim().length === 0 }))}
                   />
