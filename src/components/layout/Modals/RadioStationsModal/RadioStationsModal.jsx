@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Modal from '../Modal/Modal';
 import styles from './RadioStationsModal.module.css';
-import { FiPlus, FiX, FiEdit } from 'react-icons/fi';
+import { FiPlus, FiX, FiEdit, FiPlay, FiPause } from 'react-icons/fi';
 import Button from '../../../ui/Button/Button';
-/*import DEFAULT_STATIONS from 'd:/project_frontend/virtual-comfy-environment/src/utils/consts/DEFAULT_STATIONS.js';*/
+import TextInput from '../../../ui/InputFields/TextInput/TextInput';
+import default_stations from '../../../../utils/consts/default_stations';
 
 const RadioStationsModal = ({
   isOpen,
   onClose,
   onStationSelect,
   setSavedUrls,
+  currentPlayingStation,
+  isPlaying,
 }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [youtubeUrl, setYoutubeUrl] = useState('');
@@ -18,122 +21,186 @@ const RadioStationsModal = ({
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState('');
   const [editUrl, setEditUrl] = useState('');
+  const [formErrors, setFormErrors] = useState({ url: false, name: false });
+  const [editFormErrors, setEditFormErrors] = useState({ url: false, name: false });
+  const initialized = useRef(false);
 
   useEffect(() => {
-    const openedAppOnce = JSON.parse(localStorage.getItem('openedAppOnce'));
-    if (!openedAppOnce) {
-      localStorage.setItem('savedUrls', JSON.stringify(DEFAULT_STATIONS));
-      localStorage.setItem('openedAppOnce', 'true');
+    if (isOpen && !initialized.current) {
+      const savedUrlsFromStorage = JSON.parse(localStorage.getItem('savedUrls')) || default_stations;
+      setSavedUrlsLocal(savedUrlsFromStorage);
+      setSavedUrls(savedUrlsFromStorage);
+      
+      const lastPlayed = JSON.parse(localStorage.getItem('lastPlayedStation'));
+      if (lastPlayed && savedUrlsFromStorage.some(s => s.id === lastPlayed.id)) {
+        requestAnimationFrame(() => {
+          onStationSelect(lastPlayed);
+        });
+      }
+      
+      initialized.current = true;
     }
-    const savedUrlsFromStorage =
-      JSON.parse(localStorage.getItem('savedUrls')) || DEFAULT_STATIONS;
-    setSavedUrlsLocal(savedUrlsFromStorage);
-    setSavedUrls(savedUrlsFromStorage);
-  }, [setSavedUrls]);
+  }, [isOpen, setSavedUrls, onStationSelect]);
 
   useEffect(() => {
-    localStorage.setItem('savedUrls', JSON.stringify(savedUrls));
-    setSavedUrls(savedUrls);
-  }, [savedUrls, setSavedUrls]);
+    if (initialized.current) {
+      localStorage.setItem('savedUrls', JSON.stringify(savedUrls));
+    }
+  }, [savedUrls]);
 
-  const getYouTubeVideoId = (url) => {
+  const getYouTubeVideoId = useCallback((url) => {
     const regex = /(?:v=|\/)([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/;
     const match = url.match(regex);
     return match ? match[1] || match[2] : null;
-  };
+  }, []);
+
+  const validateForm = useCallback(() => {
+    const urlValid = !!getYouTubeVideoId(youtubeUrl);
+    const nameValid = stationName.trim().length > 0;
+    
+    setFormErrors({
+      url: !urlValid,
+      name: !nameValid
+    });
+    
+    return urlValid && nameValid;
+  }, [youtubeUrl, stationName, getYouTubeVideoId]);
+
+  const validateEditForm = useCallback(() => {
+    const urlValid = !!getYouTubeVideoId(editUrl);
+    const nameValid = editName.trim().length > 0;
+    
+    setEditFormErrors({
+      url: !urlValid,
+      name: !nameValid
+    });
+    
+    return urlValid && nameValid;
+  }, [editUrl, editName, getYouTubeVideoId]);
+
+  const handleStationClick = useCallback((station) => {
+    localStorage.setItem('lastPlayedStation', JSON.stringify(station));
+    onStationSelect(station);
+    onClose(); // Закрываем модальное окно после выбора станции
+  }, [onStationSelect, onClose]);
 
   const handleAddRadioStationClick = () => {
     setIsFormVisible(true);
+    setFormErrors({ url: false, name: false });
   };
 
-  const handleSaveUrl = async () => {
-    if (youtubeUrl && stationName) {
+  const handleSaveUrl = useCallback(async () => {
+    if (!validateForm()) return;
+
+    try {
       const videoId = getYouTubeVideoId(youtubeUrl);
-      if (videoId) {
-        try {
-          const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-          const newUrl = {
-            id: Date.now(),
-            url: youtubeUrl,
-            thumbnail,
-            title: stationName,
-          };
-          const updatedUrls = [...savedUrls, newUrl];
-          setSavedUrlsLocal(updatedUrls);
-          setSavedUrls(updatedUrls);
-          setYoutubeUrl('');
-          setStationName('');
-          setIsFormVisible(false);
-        } catch (error) {
-          console.error('Ошибка при сохранении ссылки:', error);
-          alert('Не удалось сохранить ссылку. Проверьте корректность URL.');
-        }
-      } else {
-        alert('Некорректная ссылка на YouTube');
-      }
-    } else {
-      alert('Пожалуйста, введите ссылку и название радиостанции');
+      const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      const newStation = {
+        id: Date.now(),
+        url: youtubeUrl,
+        thumbnail,
+        title: stationName,
+      };
+      
+      const updatedUrls = [...savedUrls, newStation];
+      setSavedUrlsLocal(updatedUrls);
+      setSavedUrls(updatedUrls);
+      
+      setYoutubeUrl('');
+      setStationName('');
+      setIsFormVisible(false);
+      
+      handleStationClick(newStation);
+    } catch (error) {
+      console.error('Save error:', error);
     }
-  };
+  }, [youtubeUrl, stationName, savedUrls, getYouTubeVideoId, handleStationClick, setSavedUrls, validateForm]);
 
-  const deleteUrl = (id) => {
+  const deleteUrl = useCallback((id) => {
     const newUrls = savedUrls.filter((url) => url.id !== id);
     setSavedUrlsLocal(newUrls);
     setSavedUrls(newUrls);
-    if (onStationSelect && newUrls.every((url) => url.id !== id)) {
+    
+    if (currentPlayingStation?.id === id) {
       onStationSelect(null);
+      localStorage.removeItem('lastPlayedStation');
     }
-  };
+  }, [savedUrls, currentPlayingStation, onStationSelect, setSavedUrls]);
 
-  const startEditing = (id, currentTitle, currentUrl) => {
+  const startEditing = useCallback((id, currentTitle, currentUrl) => {
     setEditingId(id);
     setEditName(currentTitle);
     setEditUrl(currentUrl);
-  };
+    setEditFormErrors({ url: false, name: false });
+  }, []);
 
-  const saveEdit = (id) => {
-    const updatedUrls = savedUrls.map((url) =>
-      url.id === id ? { ...url, title: editName, url: editUrl } : url,
-    );
-    setSavedUrlsLocal(updatedUrls);
-    setSavedUrls(updatedUrls);
-    setEditingId(null);
-  };
-
-  const handleStationClick = (station) => {
-    onStationSelect(station);
-  };
+  const saveEdit = useCallback((id) => {
+    if (!validateEditForm()) return;
+  
+    try {
+      const videoId = getYouTubeVideoId(editUrl);
+      const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      
+      const updatedUrls = savedUrls.map((url) =>
+        url.id === id ? { 
+          ...url, 
+          title: editName, 
+          url: editUrl,
+          thumbnail
+        } : url
+      );
+      
+      setSavedUrlsLocal(updatedUrls);
+      setSavedUrls(updatedUrls);
+      setEditingId(null);
+      
+      if (currentPlayingStation?.id === id) {
+        const updatedStation = { 
+          ...currentPlayingStation, 
+          title: editName, 
+          url: editUrl,
+          thumbnail
+        };
+        onStationSelect(updatedStation);
+        localStorage.setItem('lastPlayedStation', JSON.stringify(updatedStation));
+      }
+    } catch (error) {
+      console.error('Update error:', error);
+    }
+  }, [savedUrls, editName, editUrl, currentPlayingStation, onStationSelect, setSavedUrls, validateEditForm, getYouTubeVideoId]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} label="Available Radio Stations">
       <div className={styles.content}>
-        {/* Форма добавления новой станции */}
         {!isFormVisible ? (
-          <div
-            className={styles.addRadioStation}
-            onClick={handleAddRadioStationClick}
-          >
+          <div className={styles.addRadioStation} onClick={handleAddRadioStationClick}>
             <FiPlus className={styles.addIcon} />
             <span className={styles.addText}>Add New Radio Station</span>
           </div>
         ) : (
           <div className={styles.addRadioStation}>
             <span className={styles.formLabel}>New Station YouTube URL:</span>
-            <input
-              type="text"
-              placeholder="Вставьте ссылку на YouTube"
+            <TextInput
+              placeholder="Paste YouTube URL"
               className={styles.input}
               value={youtubeUrl}
               onChange={(e) => setYoutubeUrl(e.target.value)}
+              isValid={!formErrors.url}
+              onBlur={() => setFormErrors(prev => ({ ...prev, url: !getYouTubeVideoId(youtubeUrl) }))}
             />
+            {formErrors.url && <span className={styles.errorText}>Please enter a valid YouTube URL</span>}
+            
             <span className={styles.formLabel}>New Station Name:</span>
-            <input
-              type="text"
-              placeholder="Введите название радиостанции"
+            <TextInput
+              placeholder="Enter station name"
               className={styles.input}
               value={stationName}
               onChange={(e) => setStationName(e.target.value)}
+              isValid={!formErrors.name}
+              onBlur={() => setFormErrors(prev => ({ ...prev, name: stationName.trim().length === 0 }))}
             />
+            {formErrors.name && <span className={styles.errorText}>Please enter a station name</span>}
+            
             <Button
               className={styles.saveButton}
               text="Add Station"
@@ -142,28 +209,33 @@ const RadioStationsModal = ({
           </div>
         )}
 
-        {/* Список радиостанций */}
         {savedUrls.map((url) => (
           <div key={url.id}>
             {editingId === url.id ? (
               <div className={styles.editFormWrapper}>
                 <div className={styles.addRadioStation}>
                   <span className={styles.formLabel}>Station YouTube URL:</span>
-                  <input
-                    type="text"
-                    placeholder="Вставьте ссылку на YouTube"
+                  <TextInput
+                    placeholder="Paste YouTube URL"
                     className={styles.input}
                     value={editUrl}
                     onChange={(e) => setEditUrl(e.target.value)}
+                    isValid={!editFormErrors.url}
+                    onBlur={() => setEditFormErrors(prev => ({ ...prev, url: !getYouTubeVideoId(editUrl) }))}
                   />
+                  {editFormErrors.url && <span className={styles.errorText}>Please enter a valid YouTube URL</span>}
+                  
                   <span className={styles.formLabel}>Radio Station:</span>
-                  <input
-                    type="text"
-                    placeholder="Введите название радиостанции"
+                  <TextInput
+                    placeholder="Enter station name"
                     className={styles.input}
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
+                    isValid={!editFormErrors.name}
+                    onBlur={() => setEditFormErrors(prev => ({ ...prev, name: editName.trim().length === 0 }))}
                   />
+                  {editFormErrors.name && <span className={styles.errorText}>Please enter a station name</span>}
+                  
                   <Button
                     className={styles.saveButton}
                     text="Save"
@@ -186,6 +258,11 @@ const RadioStationsModal = ({
                     className={styles.thumbnail}
                   />
                   <div className={styles.videoTitle}>{url.title}</div>
+                  {currentPlayingStation?.id === url.id && (
+                    <div className={styles.playStatus}>
+                      {isPlaying ? <FiPause /> : <FiPlay />}
+                    </div>
+                  )}
                 </div>
                 <div className={styles.actions}>
                   <FiEdit
