@@ -20,116 +20,73 @@ const Radio = ({
   volume,
 }) => {
   const [currentStation, setCurrentStation] = useState('Select a station');
-  const [isRadioStationsModalOpen, setIsRadioStationsModalOpen] =
-    useState(false);
-  const [currentIndex, setCurrentIndex] = useState(-1); // Текущий индекс радиостанции
-  const [savedUrls, setSavedUrls] = useState([]); // Сохраняем список радиостанций
+  const [isRadioStationsModalOpen, setIsRadioStationsModalOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [savedUrls, setSavedUrls] = useState([]);
 
-  // Функция для открытия модального окна
-  const openRadioStationsModal = () => {
-    setIsRadioStationsModalOpen(true);
-  };
+  const openRadioStationsModal = () => setIsRadioStationsModalOpen(true);
+  const closeRadioStationsModal = () => setIsRadioStationsModalOpen(false);
 
-  // Функция для закрытия модального окна
-  const closeRadioStationsModal = () => {
-    setIsRadioStationsModalOpen(false);
-  };
-
-  // Функция для выбора радиостанции
   const handleStationSelect = (station) => {
     if (station) {
-      const index = savedUrls.findIndex((url) => url.id === station.id);
-      setCurrentIndex(index); // Устанавливаем текущий индекс
+      const index = savedUrls.findIndex(url => url.id === station.id);
+      setCurrentIndex(index);
       setCurrentStation(station.title);
-      setBackgroundVideo(station.url); // Устанавливаем видео
-      setIsPlaying(true); // Включаем воспроизведение
+      setBackgroundVideo(station.url);
+      setIsPlaying(true);
     } else {
-      setCurrentIndex(-1); // Сбрасываем индекс
+      setCurrentIndex(-1);
       setCurrentStation('Select a station');
-      setBackgroundVideo(null); // Убираем видео
-      setIsPlaying(false); // Останавливаем воспроизведение
+      setBackgroundVideo(null);
+      setIsPlaying(false);
     }
   };
 
-  // Функция для переключения на следующую радиостанцию
+  // Обновленная функция для следующей станции с зацикливанием
   const handleNext = () => {
-    if (savedUrls.length > 0 && currentIndex < savedUrls.length - 1) {
-      const nextIndex = currentIndex + 1;
-      const nextStation = savedUrls[nextIndex];
-      setCurrentIndex(nextIndex);
-      setCurrentStation(nextStation.title);
-      setBackgroundVideo(nextStation.url); // Устанавливаем видео
-      setIsPlaying(true); // Включаем воспроизведение
-    }
+    if (savedUrls.length === 0) return;
+    
+    const nextIndex = (currentIndex + 1) % savedUrls.length;
+    const nextStation = savedUrls[nextIndex];
+    setCurrentIndex(nextIndex);
+    setCurrentStation(nextStation.title);
+    setBackgroundVideo(nextStation.url);
+    setIsPlaying(true);
   };
 
-  // Функция для переключения на предыдущую радиостанцию
+  // Обновленная функция для предыдущей станции с зацикливанием
   const handlePrevious = () => {
-    if (savedUrls.length > 0 && currentIndex > 0) {
-      const prevIndex = currentIndex - 1;
-      const prevStation = savedUrls[prevIndex];
-      setCurrentIndex(prevIndex);
-      setCurrentStation(prevStation.title);
-      setBackgroundVideo(prevStation.url); // Устанавливаем видео
-      setIsPlaying(true); // Включаем воспроизведение
-    }
+    if (savedUrls.length === 0) return;
+    
+    const prevIndex = (currentIndex - 1 + savedUrls.length) % savedUrls.length;
+    const prevStation = savedUrls[prevIndex];
+    setCurrentIndex(prevIndex);
+    setCurrentStation(prevStation.title);
+    setBackgroundVideo(prevStation.url);
+    setIsPlaying(true);
   };
 
-  // Функция для управления воспроизведением
-  const togglePlayPause = () => {
-    setIsPlaying((prevState) => !prevState); // Переключаем состояние воспроизведения
-  };
-
-  // Функция для изменения громкости
-  const handleVolumeChange = (value) => {
-    setVolume(value); // Обновляем громкость
-  };
+  const togglePlayPause = () => setIsPlaying(prev => !prev);
+  const handleVolumeChange = (value) => setVolume(value);
 
   return (
     <>
-      {/* Контейнер для текста и блока с кнопками */}
       <div className={styles.radioContainer}>
         <div className={styles.stationName}>{currentStation}</div>
         <UIBlock className={styles.block}>
-          {/* Кнопка "Назад" */}
-          <SquareButton
-            icon={<FiSkipBack />}
-            onClick={handlePrevious}
-            className="button"
-          />
-
-          {/* Кнопка "Пауза/Воспроизведение" */}
-          <SquareButton
-            icon={isPlaying ? <FiPause /> : <FiPlay />}
-            onClick={togglePlayPause}
-            className="button"
-          />
-
-          {/* Кнопка "Вперед" */}
-          <SquareButton
-            icon={<FiSkipForward />}
-            onClick={handleNext}
-            className="button"
-          />
-
-          {/* Громкость */}
-          <VolumeSlider
-            value={volume} // Используем текущую громкость
-            onChange={handleVolumeChange} // Передаём функцию для изменения громкости
-            className={styles.volumeSlider}
-          />
-
-          {/* Кнопка "Радио" */}
+          <SquareButton icon={<FiSkipBack />} onClick={handlePrevious} />
+          <SquareButton icon={isPlaying ? <FiPause /> : <FiPlay />} onClick={togglePlayPause} />
+          <SquareButton icon={<FiSkipForward />} onClick={handleNext} />
+          <VolumeSlider value={volume} onChange={handleVolumeChange} className={styles.volumeSlider} />
           <SquareButton icon={<FiRadio />} onClick={openRadioStationsModal} />
         </UIBlock>
       </div>
 
-      {/* Модальное окно RadioStationModal */}
       <RadioStationModal
         isOpen={isRadioStationsModalOpen}
         onClose={closeRadioStationsModal}
         onStationSelect={handleStationSelect}
-        setSavedUrls={setSavedUrls} // Передаём функцию для обновления списка радиостанций
+        setSavedUrls={setSavedUrls}
       />
     </>
   );
