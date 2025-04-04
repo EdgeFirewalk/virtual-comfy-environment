@@ -42,7 +42,7 @@ const Sound = ({ isOpen, sound, deleteSound }) => {
 
   useEffect(() => {
     // Сохраняем в localStorage только полностью валидный звук
-    if (!(soundName.length > 0 && canPlaySound)) {
+    if (!(soundName.length > 0 && ReactPlayer.canPlay(soundURL))) {
       return;
     }
 
