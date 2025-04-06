@@ -13,8 +13,8 @@ const PomodoroPage = () => {
           target="_blank"
         >
           here
-        </a>
-        .
+        </a>{' '}
+        (you can click on the link).
       </p>
       <p className={typography.paragraph}>
         The Pomodoro timer is located in the{' '}
@@ -79,7 +79,7 @@ const PomodoroPage = () => {
       </p>
       <p className={typography.paragraph}>
         The current <span className={typography.info}>timer stage</span> will
-        also reset to Pomodoro when you refresh the page.
+        also reset to 'Pomodoro' when you refresh the page.
       </p>
       <p className={typography.paragraph}>
         You can access the{' '}
