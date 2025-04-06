@@ -1,67 +1,92 @@
 import React, { useState } from 'react';
-
 import styles from './Radio.module.css';
-
-import { FiSkipBack, FiSkipForward, FiPlay, FiRadio } from 'react-icons/fi';
-
+import {
+  FiSkipBack,
+  FiSkipForward,
+  FiPlay,
+  FiPause,
+  FiRadio,
+} from 'react-icons/fi';
 import UIBlock from '../../ui/UIBlock/UIBlock';
 import SquareButton from '../../ui/SquareButton/SquareButton';
 import RadioStationModal from '../Modals/RadioStationsModal/RadioStationsModal';
 import VolumeSlider from '../../ui/VolumeSlider/VolumeSlider';
 
-const Radio = () => {
-  const [currentStation, setCurrentStation] = useState('Select a station'); // Состояние текущей радиостанции
-  const [isRadioStationsModalOpen, setIsRadioStationsModalOpen] =
-    useState(false);
-  const [volume, setVolume] = useState(1); // Состояние громкости начальное
+const Radio = ({
+  setBackgroundVideo,
+  setIsPlaying,
+  setVolume,
+  isPlaying,
+  volume,
+}) => {
+  const [currentStation, setCurrentStation] = useState('Select a station');
+  const [isRadioStationsModalOpen, setIsRadioStationsModalOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [savedUrls, setSavedUrls] = useState([]);
 
-  // Функция для открытия модального окна
-  const openRadioStationsModal = () => {
-    setIsRadioStationsModalOpen(true);
-  };
+  const openRadioStationsModal = () => setIsRadioStationsModalOpen(true);
+  const closeRadioStationsModal = () => setIsRadioStationsModalOpen(false);
 
-  // Функция для закрытия модального окна
-  const closeRadioStationsModal = () => {
-    setIsRadioStationsModalOpen(false);
-  };
-
-  // Функция для выбора радиостанции
   const handleStationSelect = (station) => {
-    setCurrentStation(station); // Обновляем текущую станцию
+    if (station) {
+      const index = savedUrls.findIndex(url => url.id === station.id);
+      setCurrentIndex(index);
+      setCurrentStation(station.title);
+      setBackgroundVideo(station.url);
+      setIsPlaying(true);
+    } else {
+      setCurrentIndex(-1);
+      setCurrentStation('Select a station');
+      setBackgroundVideo(null);
+      setIsPlaying(false);
+    }
   };
+
+  // Обновленная функция для следующей станции с зацикливанием
+  const handleNext = () => {
+    if (savedUrls.length === 0) return;
+    
+    const nextIndex = (currentIndex + 1) % savedUrls.length;
+    const nextStation = savedUrls[nextIndex];
+    setCurrentIndex(nextIndex);
+    setCurrentStation(nextStation.title);
+    setBackgroundVideo(nextStation.url);
+    setIsPlaying(true);
+  };
+
+  // Обновленная функция для предыдущей станции с зацикливанием
+  const handlePrevious = () => {
+    if (savedUrls.length === 0) return;
+    
+    const prevIndex = (currentIndex - 1 + savedUrls.length) % savedUrls.length;
+    const prevStation = savedUrls[prevIndex];
+    setCurrentIndex(prevIndex);
+    setCurrentStation(prevStation.title);
+    setBackgroundVideo(prevStation.url);
+    setIsPlaying(true);
+  };
+
+  const togglePlayPause = () => setIsPlaying(prev => !prev);
+  const handleVolumeChange = (value) => setVolume(value);
 
   return (
     <>
-      {/* Контейнер для текста и блока с кнопками */}
       <div className={styles.radioContainer}>
-        {/* Название текущей радиостанции */}
         <div className={styles.stationName}>{currentStation}</div>
-        {/* Блок с кнопками */}
         <UIBlock className={styles.block}>
-          {/* Кнопка 1 (Стрелка влево) */}
-          <SquareButton icon={<FiSkipBack />} className="button" />
-
-          {/* Кнопка 2 (Пауза) */}
-          <SquareButton icon={<FiPlay />} className="button" />
-
-          {/* Кнопка 3 (Стрелка вправо) */}
-          <SquareButton icon={<FiSkipForward />} className="button" />
-
-          {/* Громкость + слайдер (используем VolumeSlider) */}
-          <VolumeSlider
-            value={volume}
-            onChange={(value) => setVolume(value)} // Принимаем значение напрямую
-            className={styles.volumeSlider}
-          />
-
-          {/* Кнопка 5 (Радио, открывает модальное окно) */}
+          <SquareButton icon={<FiSkipBack />} onClick={handlePrevious} />
+          <SquareButton icon={isPlaying ? <FiPause /> : <FiPlay />} onClick={togglePlayPause} />
+          <SquareButton icon={<FiSkipForward />} onClick={handleNext} />
+          <VolumeSlider value={volume} onChange={handleVolumeChange} className={styles.volumeSlider} />
           <SquareButton icon={<FiRadio />} onClick={openRadioStationsModal} />
         </UIBlock>
       </div>
-      {/* Модальное окно RadioStationModal */}
+
       <RadioStationModal
         isOpen={isRadioStationsModalOpen}
         onClose={closeRadioStationsModal}
+        onStationSelect={handleStationSelect}
+        setSavedUrls={setSavedUrls}
       />
     </>
   );
