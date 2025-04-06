@@ -1,3 +1,5 @@
+import APP_VERSION from '../../../../../utils/consts/APP_VERSION';
+
 import styles from './AboutPage.module.css';
 import typography from '../Typography.module.css';
 
@@ -69,6 +71,7 @@ const AboutPage = () => {
       <h3 className={typography.heading}>
         😊 Create your own environment and make yourself comfortable.
       </h3>
+      <p className={typography.paragraph}>{APP_VERSION}</p>
     </>
   );
 };
