@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Radio.module.css';
 import {
   FiSkipBack,
@@ -18,66 +18,98 @@ const Radio = ({
   setVolume,
   isPlaying,
   volume,
+  currentStation,
+  setCurrentStation,
+  savedUrls,
+  setSavedUrls,
 }) => {
-  const [currentStation, setCurrentStation] = useState('Select a station');
   const [isRadioStationsModalOpen, setIsRadioStationsModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const [savedUrls, setSavedUrls] = useState([]);
+
+  // Загрузка сохраненной громкости при монтировании
+  useEffect(() => {
+    const savedVolume = localStorage.getItem('radioVolume');
+    if (savedVolume) {
+      setVolume(parseFloat(savedVolume));
+    }
+  }, [setVolume]);
+
+  // Сохранение громкости при изменении
+  useEffect(() => {
+    localStorage.setItem('radioVolume', volume.toString());
+  }, [volume]);
 
   const openRadioStationsModal = () => setIsRadioStationsModalOpen(true);
   const closeRadioStationsModal = () => setIsRadioStationsModalOpen(false);
 
+  // Находим индекс текущей станции
+  useEffect(() => {
+    if (currentStation) {
+      const index = savedUrls.findIndex(url => url.id === currentStation.id);
+      setCurrentIndex(index);
+    }
+  }, [currentStation, savedUrls]);
+
   const handleStationSelect = (station) => {
     if (station) {
-      const index = savedUrls.findIndex(url => url.id === station.id);
-      setCurrentIndex(index);
-      setCurrentStation(station.title);
+      setCurrentStation(station);
       setBackgroundVideo(station.url);
       setIsPlaying(true);
+      localStorage.setItem('lastPlayedStation', JSON.stringify(station));
     } else {
-      setCurrentIndex(-1);
-      setCurrentStation('Select a station');
+      setCurrentStation(null);
       setBackgroundVideo(null);
       setIsPlaying(false);
+      localStorage.removeItem('lastPlayedStation');
     }
   };
 
-  // Обновленная функция для следующей станции с зацикливанием
   const handleNext = () => {
     if (savedUrls.length === 0) return;
     
     const nextIndex = (currentIndex + 1) % savedUrls.length;
     const nextStation = savedUrls[nextIndex];
     setCurrentIndex(nextIndex);
-    setCurrentStation(nextStation.title);
+    setCurrentStation(nextStation);
     setBackgroundVideo(nextStation.url);
     setIsPlaying(true);
+    localStorage.setItem('lastPlayedStation', JSON.stringify(nextStation));
   };
 
-  // Обновленная функция для предыдущей станции с зацикливанием
   const handlePrevious = () => {
     if (savedUrls.length === 0) return;
     
     const prevIndex = (currentIndex - 1 + savedUrls.length) % savedUrls.length;
     const prevStation = savedUrls[prevIndex];
     setCurrentIndex(prevIndex);
-    setCurrentStation(prevStation.title);
+    setCurrentStation(prevStation);
     setBackgroundVideo(prevStation.url);
     setIsPlaying(true);
+    localStorage.setItem('lastPlayedStation', JSON.stringify(prevStation));
   };
 
   const togglePlayPause = () => setIsPlaying(prev => !prev);
-  const handleVolumeChange = (value) => setVolume(value);
+  
+  const handleVolumeChange = (value) => {
+    setVolume(value);
+    // Не нужно сохранять здесь, т.к. это делается в useEffect
+  };
 
   return (
     <>
       <div className={styles.radioContainer}>
-        <div className={styles.stationName}>{currentStation}</div>
+        <div className={styles.stationName}>
+          {currentStation ? currentStation.title : 'Select a station'}
+        </div>
         <UIBlock className={styles.block}>
           <SquareButton icon={<FiSkipBack />} onClick={handlePrevious} />
           <SquareButton icon={isPlaying ? <FiPause /> : <FiPlay />} onClick={togglePlayPause} />
           <SquareButton icon={<FiSkipForward />} onClick={handleNext} />
-          <VolumeSlider value={volume} onChange={handleVolumeChange} className={styles.volumeSlider} />
+          <VolumeSlider 
+            value={volume} 
+            onChange={handleVolumeChange} 
+            className={styles.volumeSlider} 
+          />
           <SquareButton icon={<FiRadio />} onClick={openRadioStationsModal} />
         </UIBlock>
       </div>
@@ -87,6 +119,8 @@ const Radio = ({
         onClose={closeRadioStationsModal}
         onStationSelect={handleStationSelect}
         setSavedUrls={setSavedUrls}
+        currentPlayingStation={currentStation}
+        isPlaying={isPlaying}
       />
     </>
   );
