@@ -1,4 +1,4 @@
-const default_stations =  [
+const DEFAULT_STATIONS =  [
   {
     id: 1,
     url: 'https://www.youtube.com/watch?v=I24GTW0O_hc&t=18s',
@@ -18,6 +18,6 @@ const default_stations =  [
     title: 'Classical Piano Music',
   },
 ];
-export default default_stations;
+export default DEFAULT_STATIONS;
 
 
