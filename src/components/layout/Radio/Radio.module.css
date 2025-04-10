@@ -6,15 +6,21 @@
   display: flex;
   flex-direction: column;
 }
+
 /* Название радиостанции */
 .stationName {
+  max-width: 450px;
   text-align: left;
   text-shadow:
     -1px -1px 0 var(--transparent-black),
     1px -1px 0 var(--transparent-black),
     -1px 1px 0 var(--transparent-black),
     1px 1px 0 var(--transparent-black);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
+
 .block {
   display: flex;
   align-items: center;
