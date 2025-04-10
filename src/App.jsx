@@ -1,38 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import AppSizeWarning from './components/layout/AppSizeWarning/AppSizeWarning';
 import Pomodoro from './components/layout/Pomodoro/Pomodoro';
 import Sounds from './components/layout/Sounds/Sounds';
 import Radio from './components/layout/Radio/Radio';
 import ManualAndFullscreenButton from './components/layout/ManualAndFullscreenButton/ManualAndFullscreenButton';
-import styles from './App.module.css'; // Импортируем стили
+import styles from './App.module.css';
+import default_stations from './utils/consts/DEFAULT_STATIONS';
 
 function App() {
-  const [backgroundVideo, setBackgroundVideo] = useState(null); // Состояние для видео
-  const [isPlaying, setIsPlaying] = useState(false); // Состояние для воспроизведения
-  const [volume, setVolume] = useState(1); // Состояние для громкости
+  const [backgroundVideo, setBackgroundVideo] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [currentStation, setCurrentStation] = useState(null);
+  const [savedUrls, setSavedUrls] = useState([]);
+
+  // Загрузка последней станции при монтировании
+  useEffect(() => {
+    const savedUrlsFromStorage = JSON.parse(localStorage.getItem('savedUrls')) || default_stations;
+    setSavedUrls(savedUrlsFromStorage);
+    
+    const lastPlayed = JSON.parse(localStorage.getItem('lastPlayedStation'));
+    if (lastPlayed && savedUrlsFromStorage.some(s => s.id === lastPlayed.id)) {
+      setCurrentStation(lastPlayed);
+      setBackgroundVideo(lastPlayed.url);
+      setIsPlaying(false); // Ставим на паузу при загрузке
+    }
+  }, []);
 
   return (
     <>
-      {/* Фоновое видео и музыка */}
       <div className={styles.videoContainer}>
         {backgroundVideo && (
           <ReactPlayer
             className={styles.videoPlayer}
             url={backgroundVideo}
-            playing={isPlaying} // Управляем воспроизведением
-            loop={true} // Зацикливание
-            muted={false} // Звук включён
-            volume={volume} // Громкость
+            playing={isPlaying}
+            loop={true}
+            muted={false}
+            volume={volume}
             width="100%"
             height="100%"
             config={{
               youtube: {
                 playerVars: {
-                  controls: 0, // Скрываем элементы управления YouTube
-                  showinfo: 0, // Скрываем информацию о видео
-                  rel: 0, // Отключаем связанные видео
-                  modestbranding: 1, // Скрываем логотип YouTube
+                  controls: 0,
+                  showinfo: 0,
+                  rel: 0,
+                  modestbranding: 1,
                 },
               },
             }}
@@ -40,19 +55,21 @@ function App() {
         )}
       </div>
 
-      {/* Полупрозрачный тёмный блок (теперь всегда отображается) */}
       <div className={styles.darkOverlay} />
 
-      {/* Компоненты */}
       <AppSizeWarning />
       <Pomodoro />
       <Sounds />
       <Radio
-        setBackgroundVideo={setBackgroundVideo} // Передаём функцию для обновления фона
-        setIsPlaying={setIsPlaying} // Передаём функцию для управления воспроизведением
-        setVolume={setVolume} // Передаём функцию для управления громкостью
-        isPlaying={isPlaying} // Передаём состояние воспроизведения
-        volume={volume} // Передаём текущую громкость
+        setBackgroundVideo={setBackgroundVideo}
+        setIsPlaying={setIsPlaying}
+        setVolume={setVolume}
+        isPlaying={isPlaying}
+        volume={volume}
+        currentStation={currentStation}
+        setCurrentStation={setCurrentStation}
+        savedUrls={savedUrls}
+        setSavedUrls={setSavedUrls}
       />
       <ManualAndFullscreenButton />
     </>
