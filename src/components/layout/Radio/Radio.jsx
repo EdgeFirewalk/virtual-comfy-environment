@@ -23,7 +23,8 @@ const Radio = ({
   savedUrls,
   setSavedUrls,
 }) => {
-  const [isRadioStationsModalOpen, setIsRadioStationsModalOpen] = useState(false);
+  const [isRadioStationsModalOpen, setIsRadioStationsModalOpen] =
+    useState(false);
   const [currentIndex, setCurrentIndex] = useState(-1);
 
   // Загрузка сохраненной громкости при монтировании
@@ -45,7 +46,7 @@ const Radio = ({
   // Находим индекс текущей станции
   useEffect(() => {
     if (currentStation) {
-      const index = savedUrls.findIndex(url => url.id === currentStation.id);
+      const index = savedUrls.findIndex((url) => url.id === currentStation.id);
       setCurrentIndex(index);
     }
   }, [currentStation, savedUrls]);
@@ -66,7 +67,7 @@ const Radio = ({
 
   const handleNext = () => {
     if (savedUrls.length === 0) return;
-    
+
     const nextIndex = (currentIndex + 1) % savedUrls.length;
     const nextStation = savedUrls[nextIndex];
     setCurrentIndex(nextIndex);
@@ -78,7 +79,7 @@ const Radio = ({
 
   const handlePrevious = () => {
     if (savedUrls.length === 0) return;
-    
+
     const prevIndex = (currentIndex - 1 + savedUrls.length) % savedUrls.length;
     const prevStation = savedUrls[prevIndex];
     setCurrentIndex(prevIndex);
@@ -88,8 +89,8 @@ const Radio = ({
     localStorage.setItem('lastPlayedStation', JSON.stringify(prevStation));
   };
 
-  const togglePlayPause = () => setIsPlaying(prev => !prev);
-  
+  const togglePlayPause = () => setIsPlaying((prev) => !prev);
+
   const handleVolumeChange = (value) => {
     setVolume(value);
     // Не нужно сохранять здесь, т.к. это делается в useEffect
@@ -103,12 +104,15 @@ const Radio = ({
         </div>
         <UIBlock className={styles.block}>
           <SquareButton icon={<FiSkipBack />} onClick={handlePrevious} />
-          <SquareButton icon={isPlaying ? <FiPause /> : <FiPlay />} onClick={togglePlayPause} />
+          <SquareButton
+            icon={isPlaying ? <FiPause /> : <FiPlay />}
+            onClick={togglePlayPause}
+          />
           <SquareButton icon={<FiSkipForward />} onClick={handleNext} />
-          <VolumeSlider 
-            value={volume} 
-            onChange={handleVolumeChange} 
-            className={styles.volumeSlider} 
+          <VolumeSlider
+            value={volume}
+            onChange={handleVolumeChange}
+            className={styles.volumeSlider}
           />
           <SquareButton icon={<FiRadio />} onClick={openRadioStationsModal} />
         </UIBlock>

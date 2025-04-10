@@ -22,20 +22,23 @@ const RadioStationsModal = ({
   const [editName, setEditName] = useState('');
   const [editUrl, setEditUrl] = useState('');
   const [formErrors, setFormErrors] = useState({ url: false, name: false });
-  const [editFormErrors, setEditFormErrors] = useState({ url: false, name: false });
+  const [editFormErrors, setEditFormErrors] = useState({
+    url: false,
+    name: false,
+  });
   const initialized = useRef(false);
-
 
   useEffect(() => {
     if (isOpen && !initialized.current) {
-      // Загружаем станции 
-      const savedUrlsFromStorage = JSON.parse(localStorage.getItem('savedUrls')) || DEFAULT_STATIONS;
+      // Загружаем станции
+      const savedUrlsFromStorage =
+        JSON.parse(localStorage.getItem('savedUrls')) || DEFAULT_STATIONS;
       setSavedUrlsLocal(savedUrlsFromStorage);
       setSavedUrls(savedUrlsFromStorage);
       initialized.current = true;
     }
   }, [isOpen, setSavedUrls]);
-  
+
   useEffect(() => {
     if (initialized.current) {
       localStorage.setItem('savedUrls', JSON.stringify(savedUrls));
@@ -51,32 +54,35 @@ const RadioStationsModal = ({
   const validateForm = useCallback(() => {
     const urlValid = !!getYouTubeVideoId(youtubeUrl);
     const nameValid = stationName.trim().length > 0;
-    
+
     setFormErrors({
       url: !urlValid,
-      name: !nameValid
+      name: !nameValid,
     });
-    
+
     return urlValid && nameValid;
   }, [youtubeUrl, stationName, getYouTubeVideoId]);
 
   const validateEditForm = useCallback(() => {
     const urlValid = !!getYouTubeVideoId(editUrl);
     const nameValid = editName.trim().length > 0;
-    
+
     setEditFormErrors({
       url: !urlValid,
-      name: !nameValid
+      name: !nameValid,
     });
-    
+
     return urlValid && nameValid;
   }, [editUrl, editName, getYouTubeVideoId]);
 
-  const handleStationClick = useCallback((station) => {
-    localStorage.setItem('lastPlayedStation', JSON.stringify(station));
-    onStationSelect(station);
-    onClose();
-  }, [onStationSelect, onClose]);
+  const handleStationClick = useCallback(
+    (station) => {
+      localStorage.setItem('lastPlayedStation', JSON.stringify(station));
+      onStationSelect(station);
+      onClose();
+    },
+    [onStationSelect, onClose],
+  );
 
   const handleAddRadioStationClick = () => {
     setIsFormVisible(true);
@@ -95,31 +101,42 @@ const RadioStationsModal = ({
         thumbnail,
         title: stationName,
       };
-      
+
       const updatedUrls = [...savedUrls, newStation];
       setSavedUrlsLocal(updatedUrls);
       setSavedUrls(updatedUrls);
-      
+
       setYoutubeUrl('');
       setStationName('');
       setIsFormVisible(false);
-      
+
       handleStationClick(newStation);
     } catch (error) {
       console.error('Save error:', error);
     }
-  }, [youtubeUrl, stationName, savedUrls, getYouTubeVideoId, handleStationClick, setSavedUrls, validateForm]);
+  }, [
+    youtubeUrl,
+    stationName,
+    savedUrls,
+    getYouTubeVideoId,
+    handleStationClick,
+    setSavedUrls,
+    validateForm,
+  ]);
 
-  const deleteUrl = useCallback((id) => {
-    const newUrls = savedUrls.filter((url) => url.id !== id);
-    setSavedUrlsLocal(newUrls);
-    setSavedUrls(newUrls);
-    
-    if (currentPlayingStation?.id === id) {
-      onStationSelect(null);
-      localStorage.removeItem('lastPlayedStation');
-    }
-  }, [savedUrls, currentPlayingStation, onStationSelect, setSavedUrls]);
+  const deleteUrl = useCallback(
+    (id) => {
+      const newUrls = savedUrls.filter((url) => url.id !== id);
+      setSavedUrlsLocal(newUrls);
+      setSavedUrls(newUrls);
+
+      if (currentPlayingStation?.id === id) {
+        onStationSelect(null);
+        localStorage.removeItem('lastPlayedStation');
+      }
+    },
+    [savedUrls, currentPlayingStation, onStationSelect, setSavedUrls],
+  );
 
   const startEditing = useCallback((id, currentTitle, currentUrl) => {
     setEditingId(id);
@@ -128,46 +145,64 @@ const RadioStationsModal = ({
     setEditFormErrors({ url: false, name: false });
   }, []);
 
-  const saveEdit = useCallback((id) => {
-    if (!validateEditForm()) return;
-  
-    try {
-      const videoId = getYouTubeVideoId(editUrl);
-      const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-      
-      const updatedUrls = savedUrls.map((url) =>
-        url.id === id ? { 
-          ...url, 
-          title: editName, 
-          url: editUrl,
-          thumbnail
-        } : url
-      );
-      
-      setSavedUrlsLocal(updatedUrls);
-      setSavedUrls(updatedUrls);
-      setEditingId(null);
-      
-      if (currentPlayingStation?.id === id) {
-        const updatedStation = { 
-          ...currentPlayingStation, 
-          title: editName, 
-          url: editUrl,
-          thumbnail
-        };
-        // Обновляем текущую станцию и сохраняем в localStorage
-        onStationSelect(updatedStation);
-        localStorage.setItem('lastPlayedStation', JSON.stringify(updatedStation));
-        
-        // Если станция играла - продолжаем воспроизведение
-        if (isPlaying) {
-          setIsPlaying(true);
+  const saveEdit = useCallback(
+    (id) => {
+      if (!validateEditForm()) return;
+
+      try {
+        const videoId = getYouTubeVideoId(editUrl);
+        const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+        const updatedUrls = savedUrls.map((url) =>
+          url.id === id
+            ? {
+                ...url,
+                title: editName,
+                url: editUrl,
+                thumbnail,
+              }
+            : url,
+        );
+
+        setSavedUrlsLocal(updatedUrls);
+        setSavedUrls(updatedUrls);
+        setEditingId(null);
+
+        if (currentPlayingStation?.id === id) {
+          const updatedStation = {
+            ...currentPlayingStation,
+            title: editName,
+            url: editUrl,
+            thumbnail,
+          };
+          // Обновляем текущую станцию и сохраняем в localStorage
+          onStationSelect(updatedStation);
+          localStorage.setItem(
+            'lastPlayedStation',
+            JSON.stringify(updatedStation),
+          );
+
+          // Если станция играла - продолжаем воспроизведение
+          if (isPlaying) {
+            setIsPlaying(true);
+          }
         }
+      } catch (error) {
+        console.error('Update error:', error);
       }
-    } catch (error) {
-      console.error('Update error:', error);
-    }
-  }, [savedUrls, editName, editUrl, currentPlayingStation, onStationSelect, setSavedUrls, validateEditForm, getYouTubeVideoId, isPlaying]);
+    },
+    [
+      savedUrls,
+      editName,
+      editUrl,
+      currentPlayingStation,
+      onStationSelect,
+      setSavedUrls,
+      validateEditForm,
+      getYouTubeVideoId,
+      isPlaying,
+    ],
+  );
 
   // Обработчик нажатия клавиши Enter
   const handleKeyDown = (e, action) => {
@@ -181,7 +216,10 @@ const RadioStationsModal = ({
     <Modal isOpen={isOpen} onClose={onClose} label="Available Radio Stations">
       <div className={styles.content}>
         {!isFormVisible ? (
-          <div className={styles.addRadioStation} onClick={handleAddRadioStationClick}>
+          <div
+            className={styles.addRadioStation}
+            onClick={handleAddRadioStationClick}
+          >
             <FiPlus className={styles.addIcon} />
             <span className={styles.addText}>Add New Radio Station</span>
           </div>
@@ -195,10 +233,19 @@ const RadioStationsModal = ({
               onChange={(e) => setYoutubeUrl(e.target.value)}
               onKeyDown={(e) => handleKeyDown(e, handleSaveUrl)}
               isValid={!formErrors.url}
-              onBlur={() => setFormErrors(prev => ({ ...prev, url: !getYouTubeVideoId(youtubeUrl) }))}
+              onBlur={() =>
+                setFormErrors((prev) => ({
+                  ...prev,
+                  url: !getYouTubeVideoId(youtubeUrl),
+                }))
+              }
             />
-            {formErrors.url && <span className={styles.errorText}>Please enter a valid YouTube URL</span>}
-            
+            {formErrors.url && (
+              <span className={styles.errorText}>
+                Please enter a valid YouTube URL
+              </span>
+            )}
+
             <span className={styles.formLabel}>New Station Name:</span>
             <TextInput
               placeholder="Enter station name"
@@ -207,10 +254,19 @@ const RadioStationsModal = ({
               onChange={(e) => setStationName(e.target.value)}
               onKeyDown={(e) => handleKeyDown(e, handleSaveUrl)}
               isValid={!formErrors.name}
-              onBlur={() => setFormErrors(prev => ({ ...prev, name: stationName.trim().length === 0 }))}
+              onBlur={() =>
+                setFormErrors((prev) => ({
+                  ...prev,
+                  name: stationName.trim().length === 0,
+                }))
+              }
             />
-            {formErrors.name && <span className={styles.errorText}>Please enter a station name</span>}
-            
+            {formErrors.name && (
+              <span className={styles.errorText}>
+                Please enter a station name
+              </span>
+            )}
+
             <Button
               className={styles.saveButton}
               text="Add Station"
@@ -232,10 +288,19 @@ const RadioStationsModal = ({
                     onChange={(e) => setEditUrl(e.target.value)}
                     onKeyDown={(e) => handleKeyDown(e, () => saveEdit(url.id))}
                     isValid={!editFormErrors.url}
-                    onBlur={() => setEditFormErrors(prev => ({ ...prev, url: !getYouTubeVideoId(editUrl) }))}
+                    onBlur={() =>
+                      setEditFormErrors((prev) => ({
+                        ...prev,
+                        url: !getYouTubeVideoId(editUrl),
+                      }))
+                    }
                   />
-                  {editFormErrors.url && <span className={styles.errorText}>Please enter a valid YouTube URL</span>}
-                  
+                  {editFormErrors.url && (
+                    <span className={styles.errorText}>
+                      Please enter a valid YouTube URL
+                    </span>
+                  )}
+
                   <span className={styles.formLabel}>Radio Station:</span>
                   <TextInput
                     placeholder="Enter station name"
@@ -244,10 +309,19 @@ const RadioStationsModal = ({
                     onChange={(e) => setEditName(e.target.value)}
                     onKeyDown={(e) => handleKeyDown(e, () => saveEdit(url.id))}
                     isValid={!editFormErrors.name}
-                    onBlur={() => setEditFormErrors(prev => ({ ...prev, name: editName.trim().length === 0 }))}
+                    onBlur={() =>
+                      setEditFormErrors((prev) => ({
+                        ...prev,
+                        name: editName.trim().length === 0,
+                      }))
+                    }
                   />
-                  {editFormErrors.name && <span className={styles.errorText}>Please enter a station name</span>}
-                  
+                  {editFormErrors.name && (
+                    <span className={styles.errorText}>
+                      Please enter a station name
+                    </span>
+                  )}
+
                   <Button
                     className={styles.saveButton}
                     text="Save"

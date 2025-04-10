@@ -1,4 +1,4 @@
-const DEFAULT_STATIONS =  [
+const DEFAULT_STATIONS = [
   {
     id: 1,
     url: 'https://www.youtube.com/watch?v=I24GTW0O_hc&t=18s',
@@ -19,5 +19,3 @@ const DEFAULT_STATIONS =  [
   },
 ];
 export default DEFAULT_STATIONS;
-
-

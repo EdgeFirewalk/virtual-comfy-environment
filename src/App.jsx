@@ -17,11 +17,15 @@ function App() {
 
   // Загрузка последней станции при монтировании
   useEffect(() => {
-    const savedUrlsFromStorage = JSON.parse(localStorage.getItem('savedUrls')) || default_stations;
+    const savedUrlsFromStorage =
+      JSON.parse(localStorage.getItem('savedUrls')) || default_stations;
     setSavedUrls(savedUrlsFromStorage);
-    
+
     const lastPlayed = JSON.parse(localStorage.getItem('lastPlayedStation'));
-    if (lastPlayed && savedUrlsFromStorage.some(s => s.id === lastPlayed.id)) {
+    if (
+      lastPlayed &&
+      savedUrlsFromStorage.some((s) => s.id === lastPlayed.id)
+    ) {
       setCurrentStation(lastPlayed);
       setBackgroundVideo(lastPlayed.url);
       setIsPlaying(false); // Ставим на паузу при загрузке
