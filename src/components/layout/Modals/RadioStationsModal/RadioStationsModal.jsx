@@ -4,7 +4,7 @@ import styles from './RadioStationsModal.module.css';
 import { FiPlus, FiX, FiEdit, FiPlay, FiPause } from 'react-icons/fi';
 import Button from '../../../ui/Button/Button';
 import TextInput from '../../../ui/InputFields/TextInput/TextInput';
-import default_stations from '../../../../utils/consts/default_stations';
+import DEFAULT_STATIONS from '../../../../utils/consts/DEFAULT_STATIONS';
 
 const RadioStationsModal = ({
   isOpen,
@@ -25,23 +25,17 @@ const RadioStationsModal = ({
   const [editFormErrors, setEditFormErrors] = useState({ url: false, name: false });
   const initialized = useRef(false);
 
+
   useEffect(() => {
     if (isOpen && !initialized.current) {
-      const savedUrlsFromStorage = JSON.parse(localStorage.getItem('savedUrls')) || default_stations;
+      // Загружаем станции 
+      const savedUrlsFromStorage = JSON.parse(localStorage.getItem('savedUrls')) || DEFAULT_STATIONS;
       setSavedUrlsLocal(savedUrlsFromStorage);
       setSavedUrls(savedUrlsFromStorage);
-      
-      const lastPlayed = JSON.parse(localStorage.getItem('lastPlayedStation'));
-      if (lastPlayed && savedUrlsFromStorage.some(s => s.id === lastPlayed.id)) {
-        requestAnimationFrame(() => {
-          onStationSelect(lastPlayed);
-        });
-      }
-      
       initialized.current = true;
     }
-  }, [isOpen, setSavedUrls, onStationSelect]);
-
+  }, [isOpen, setSavedUrls]);
+  
   useEffect(() => {
     if (initialized.current) {
       localStorage.setItem('savedUrls', JSON.stringify(savedUrls));
@@ -161,13 +155,19 @@ const RadioStationsModal = ({
           url: editUrl,
           thumbnail
         };
+        // Обновляем текущую станцию и сохраняем в localStorage
         onStationSelect(updatedStation);
         localStorage.setItem('lastPlayedStation', JSON.stringify(updatedStation));
+        
+        // Если станция играла - продолжаем воспроизведение
+        if (isPlaying) {
+          setIsPlaying(true);
+        }
       }
     } catch (error) {
       console.error('Update error:', error);
     }
-  }, [savedUrls, editName, editUrl, currentPlayingStation, onStationSelect, setSavedUrls, validateEditForm, getYouTubeVideoId]);
+  }, [savedUrls, editName, editUrl, currentPlayingStation, onStationSelect, setSavedUrls, validateEditForm, getYouTubeVideoId, isPlaying]);
 
   // Обработчик нажатия клавиши Enter
   const handleKeyDown = (e, action) => {
