@@ -1,0 +1,51 @@
+.manual {
+  display: flex;
+  max-height: 100%;
+}
+
+.left {
+  max-width: 280px;
+
+  border-right: 1px solid var(--white);
+}
+
+.logo {
+  text-align: center;
+
+  border-bottom: 1px solid var(--white);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px;
+}
+
+.navLink {
+  padding: 3px 10px;
+
+  border: 1px solid transparent;
+
+  cursor: pointer;
+
+  transition-property: background-color;
+  transition-duration: var(--ui-transition-duration);
+}
+
+.navLink:hover {
+  background-color: var(--transparent-white);
+}
+
+.activeLink {
+  border: 1px solid var(--white);
+}
+
+.body {
+  flex-grow: 1;
+  width: 100%;
+  margin-left: 10px;
+  padding-right: 5px;
+
+  overflow-y: auto;
+}

@@ -1,0 +1,38 @@
+.paragraph {
+  margin: 8px 0;
+}
+
+.paragraph span.info {
+  color: var(--blue);
+}
+
+.paragraph span.warning {
+  color: var(--red);
+}
+
+.link {
+  color: var(--blue);
+
+  text-decoration: underline;
+}
+
+.heading {
+  margin: 10px 0;
+}
+
+.title {
+  margin: 10px 0;
+
+  text-align: center;
+}
+
+.list {
+  margin-left: 20px;
+}
+
+.img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+}
