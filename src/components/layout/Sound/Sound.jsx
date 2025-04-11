@@ -42,7 +42,7 @@ const Sound = ({ isOpen, sound, deleteSound }) => {
 
   useEffect(() => {
     // Сохраняем в localStorage только полностью валидный звук
-    if (!(soundName.length > 0 && canPlaySound)) {
+    if (!(soundName.length > 0 && ReactPlayer.canPlay(soundURL))) {
       return;
     }
 
@@ -51,7 +51,7 @@ const Sound = ({ isOpen, sound, deleteSound }) => {
       name: soundName,
       URL: soundURL,
       volume: parseFloat(volume),
-      isPlaying: isPlaying,
+      // isPlaying: isPlaying,
     };
 
     const savedSounds = JSON.parse(localStorage.getItem('savedSounds'));
@@ -70,7 +70,7 @@ const Sound = ({ isOpen, sound, deleteSound }) => {
       'savedSounds',
       JSON.stringify([...newSounds, newSound]),
     );
-  }, [soundName, soundURL, volume, isPlaying, canPlaySound]);
+  }, [soundName, soundURL, volume, canPlaySound]);
 
   return (
     <div className={styles.sound}>
