@@ -1,5 +1,10 @@
 import typography from '../Typography.module.css';
 
+import SoundsFoldImg from './images/sounds-fold.png';
+import SoundsUnfoldImg from './images/sounds-unfold.png';
+import NewSoundImg from './images/new-sound.png';
+import InvalidLinkImg from './images/invalid-link.png';
+
 const SoundsPage = () => {
   return (
     <>
@@ -11,7 +16,7 @@ const SoundsPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\SoundsPage\images\sounds-fold.png"
+        src={SoundsFoldImg}
       />
       <p className={typography.paragraph}>
         There is a set of{' '}
@@ -29,7 +34,7 @@ const SoundsPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\SoundsPage\images\sounds-unfold.png"
+        src={SoundsUnfoldImg}
         style={{ width: '520px' }}
       />
       <p className={typography.paragraph}>
@@ -54,7 +59,7 @@ const SoundsPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\SoundsPage\images\new-sound.png"
+        src={NewSoundImg}
         style={{ width: '520px' }}
       />
       <p className={typography.paragraph}>
@@ -74,7 +79,7 @@ const SoundsPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\SoundsPage\images\invalid-link.png"
+        src={InvalidLinkImg}
         style={{ width: '520px' }}
       />
     </>

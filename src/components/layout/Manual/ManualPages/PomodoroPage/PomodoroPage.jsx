@@ -1,5 +1,9 @@
 import typography from '../Typography.module.css';
 
+import FoldPomodoroImg from './images/fold-pomodoro.png';
+import TimerUnfoldImg from './images/timer-unfold.png';
+import TimerSettingsImg from './images/timer-settings.png';
+
 const PomodoroPage = () => {
   return (
     <>
@@ -25,7 +29,7 @@ const PomodoroPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\PomodoroPage\images\fold-pomodoro.png"
+        src={FoldPomodoroImg}
       />
       <p className={typography.paragraph}>
         At the moment, you can only see the time remaining until the end of the
@@ -37,7 +41,7 @@ const PomodoroPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\PomodoroPage\images\timer-unfold.png"
+        src={TimerUnfoldImg}
       />
       <p className={typography.paragraph}>
         There are three <span className={typography.info}>timer stages</span>:
@@ -89,7 +93,7 @@ const PomodoroPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\PomodoroPage\images\timer-settings.png"
+        src={TimerSettingsImg}
       />
       <p className={typography.paragraph}>
         In the settings, you can configure the{' '}

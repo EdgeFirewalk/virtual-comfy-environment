@@ -1,5 +1,11 @@
 import typography from '../Typography.module.css';
 
+import RadioImg from './images/radio.png';
+import DefaultStationsImg from './images/default-stations.png';
+import NewStationImg from './images/new-station.png';
+import WrongInputImg from './images/wrong-input.png';
+import StationImg from './images/station.png';
+
 const RadioPage = () => {
   return (
     <>
@@ -10,7 +16,7 @@ const RadioPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\RadioPage\images\radio.png"
+        src={RadioImg}
       />
       <p className={typography.paragraph}>
         The <span className={typography.info}>text</span> above the player shows
@@ -33,7 +39,7 @@ const RadioPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\RadioPage\images\default-stations.png"
+        src={DefaultStationsImg}
         style={{ width: '520px' }}
       />
       <p className={typography.paragraph}>
@@ -51,7 +57,7 @@ const RadioPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\RadioPage\images\new-station.png"
+        src={NewStationImg}
       />
       <p className={typography.paragraph}>
         Enter a <span className={typography.info}>YouTube URL</span> for the
@@ -65,7 +71,7 @@ const RadioPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\RadioPage\images\wrong-input.png"
+        src={WrongInputImg}
       />
       <p className={typography.paragraph}>
         In this case, you <span className={typography.warning}>won't</span> be
@@ -82,7 +88,7 @@ const RadioPage = () => {
       </p>
       <img
         className={typography.img}
-        src="src\components\layout\Manual\ManualPages\RadioPage\images\station.png"
+        src={StationImg}
       />
       <p className={typography.paragraph}>
         To <span className={typography.warning}>delete</span> a station, click
