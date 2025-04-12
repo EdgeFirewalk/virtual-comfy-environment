@@ -16,7 +16,7 @@ You can add any sounds you want, play any music you like, and set up the timer h
 
 ### 😊 Create your own environment and make yourself comfortable.
 
-The app is available here: <GHPages-Link>
+The app is available here: https://edgefirewalk.github.io/virtual-comfy-environment/
 
 ## 📷 Screenshots
 
