@@ -27,10 +27,7 @@ const PomodoroPage = () => {
       <p className={typography.paragraph}>
         Our timer is <span className={typography.info}>folded</span> by default:
       </p>
-      <img
-        className={typography.img}
-        src={FoldPomodoroImg}
-      />
+      <img className={typography.img} src={FoldPomodoroImg} />
       <p className={typography.paragraph}>
         At the moment, you can only see the time remaining until the end of the
         current <span className={typography.info}>timer stage</span>.
@@ -39,10 +36,7 @@ const PomodoroPage = () => {
         When you expand the timer, you will see its{' '}
         <span className={typography.info}>main view</span>:
       </p>
-      <img
-        className={typography.img}
-        src={TimerUnfoldImg}
-      />
+      <img className={typography.img} src={TimerUnfoldImg} />
       <p className={typography.paragraph}>
         There are three <span className={typography.info}>timer stages</span>:
       </p>
@@ -91,10 +85,7 @@ const PomodoroPage = () => {
         button in the top-right corner of the{' '}
         <span className={typography.info}>main view</span>:
       </p>
-      <img
-        className={typography.img}
-        src={TimerSettingsImg}
-      />
+      <img className={typography.img} src={TimerSettingsImg} />
       <p className={typography.paragraph}>
         In the settings, you can configure the{' '}
         <span className={typography.info}>duration</span> of each timer stage,

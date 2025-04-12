@@ -14,10 +14,7 @@ const RadioPage = () => {
         The radio player is located in the{' '}
         <span className={typography.info}>bottom-left corner</span> of the app:
       </p>
-      <img
-        className={typography.img}
-        src={RadioImg}
-      />
+      <img className={typography.img} src={RadioImg} />
       <p className={typography.paragraph}>
         The <span className={typography.info}>text</span> above the player shows
         the name of the{' '}
@@ -55,10 +52,7 @@ const RadioPage = () => {
         To add a new station, click the{' '}
         <span className={typography.info}>'Add New Radio Station'</span> button:
       </p>
-      <img
-        className={typography.img}
-        src={NewStationImg}
-      />
+      <img className={typography.img} src={NewStationImg} />
       <p className={typography.paragraph}>
         Enter a <span className={typography.info}>YouTube URL</span> for the
         station and its <span className={typography.info}>name</span>.
@@ -69,10 +63,7 @@ const RadioPage = () => {
         <span className={typography.warning}>red</span> and display an{' '}
         <span className={typography.warning}>error message</span>:
       </p>
-      <img
-        className={typography.img}
-        src={WrongInputImg}
-      />
+      <img className={typography.img} src={WrongInputImg} />
       <p className={typography.paragraph}>
         In this case, you <span className={typography.warning}>won't</span> be
         able to add the station. If all information is{' '}
@@ -86,10 +77,7 @@ const RadioPage = () => {
         the <span className={typography.info}>top-right corner</span> of the
         station card.
       </p>
-      <img
-        className={typography.img}
-        src={StationImg}
-      />
+      <img className={typography.img} src={StationImg} />
       <p className={typography.paragraph}>
         To <span className={typography.warning}>delete</span> a station, click
         the <span className={typography.warning}>cross icon</span> in the{' '}

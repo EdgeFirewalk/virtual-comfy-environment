@@ -14,10 +14,7 @@ const SoundsPage = () => {
         <span className={typography.info}>top-right corner</span> of the app and
         are <span className={typography.info}>folded</span> by default:
       </p>
-      <img
-        className={typography.img}
-        src={SoundsFoldImg}
-      />
+      <img className={typography.img} src={SoundsFoldImg} />
       <p className={typography.paragraph}>
         There is a set of{' '}
         <span className={typography.info}>default sounds</span>, such as rain,
